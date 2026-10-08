@@ -1,0 +1,168 @@
+rules_version = '2';
+
+// jobchain 用 Firestore セキュリティルール
+//
+// これまでSupabaseのRow Level Security(RLS)が担っていた「自分の作った
+// アカウント・求人・応募・メッセージだけを書き換えられる」という制限を、
+// Firestore側の仕組みでそのまま再現したものです。
+//
+// このアプリのユーザーは全員「匿名認証」でサインインしています(名前や
+// パスワードは不要)。そのため request.auth は必ずFirebaseの匿名ユーザー
+// のUIDを指し、1つのブラウザ(1つのauth_uid)が複数のaccountsドキュメント
+// (サブアカウント)を持てる設計になっています。
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // accountId のドキュメントが「今リクエストしている本人が持っている
+    // アカウント」かどうかを調べる。
+    function ownsAccount(accountId) {
+      return signedIn()
+        && accountId != null
+        && get(/databases/$(database)/documents/accounts/$(accountId)).data.auth_uid == request.auth.uid;
+    }
+
+    // jobId の求人の投稿者(employer_id)が、今リクエストしている本人かどうか。
+    function isJobOwner(jobId) {
+      return signedIn()
+        && ownsAccount(get(/databases/$(database)/documents/jobs/$(jobId)).data.employer_id);
+    }
+
+    // ---------------- accounts ----------------
+    // 名前・自己紹介・見本残高などのプロフィール情報。
+    // 誰でも読めるが(求人一覧に投稿者名を出すため)、書き込みは本人のみ。
+    match /accounts/{accountId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.auth_uid == request.auth.uid
+        && request.resource.data.balance == 0
+        && request.resource.data.pending == 0
+        && request.resource.data.is_deleted == false;
+
+      // 自分のアカウントのフィールドは自由に更新できるが、
+      // auth_uid(所有者)だけは書き換えられない。
+      allow update: if signedIn()
+        && resource.data.auth_uid == request.auth.uid
+        && request.resource.data.auth_uid == request.auth.uid;
+
+      // アカウントは完全には削除しない(ソフトデリートのみ)。
+      allow delete: if false;
+    }
+
+    // ---------------- jobs ----------------
+    match /jobs/{jobId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && ownsAccount(request.resource.data.employer_id)
+        && request.resource.data.is_open == true
+        && request.resource.data.hired_id == null
+        && request.resource.data.settled == false
+        && request.resource.data.pending_claimed == false;
+
+      allow update: if signedIn() && (
+        // (1) 投稿者本人による更新(締切・採用・支払い済みにする、など)。
+        ownsAccount(resource.data.employer_id)
+        // (2) 採用されたETH案件の本人が、自分への報酬反映が済んだことを
+        //     示すpending_claimedフラグだけを立てる特別枠。
+        //     (accounts側の自分の残高更新はこれと同じバッチで行われる)
+        || (
+          resource.data.pay_method == 'eth'
+          && resource.data.hired_id != null
+          && resource.data.pending_claimed != true
+          && ownsAccount(resource.data.hired_id)
+          && request.resource.data.pending_claimed == true
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pending_claimed'])
+        )
+      );
+
+      // 投稿者本人だけが、自分の求人を削除できる
+      // (応募・チャットの連動削除はクライアント側で個別に行う)。
+      allow delete: if signedIn() && ownsAccount(resource.data.employer_id);
+    }
+
+    // ---------------- applications ----------------
+    // 「どの求人に誰が応募したか」。誰でも読める(投稿者が応募者一覧を
+    // 見られるようにするため)。
+    match /applications/{applicationId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && ownsAccount(request.resource.data.applicant_id);
+
+      // 応募の取り下げは応募者本人、または(求人ごと削除するときのために)
+      // その求人の投稿者本人のどちらでもできる。
+      allow delete: if signedIn() && (
+        ownsAccount(resource.data.applicant_id)
+        || isJobOwner(resource.data.job_id)
+      );
+
+      allow update: if false;
+    }
+
+    // ---------------- messages ----------------
+    // 求人ごとのチャット。プライバシーのため、自分が送信者(from_id)か
+    // 受信者(to_id)のどちらかであるものしか読めない。
+    // (クライアント側は from_id / to_id をそれぞれ自分の口座IDの配列で
+    //  絞り込んだクエリしか投げない。フィルタしていない全件クエリは
+    //  このルールにより拒否される)
+    match /messages/{messageId} {
+      allow read: if signedIn() && (
+        ownsAccount(resource.data.from_id) || ownsAccount(resource.data.to_id)
+      );
+
+      allow create: if signedIn()
+        && ownsAccount(request.resource.data.from_id);
+
+      // 求人ごと削除するときのために、会話の当事者(投稿者・応募者どちらも)
+      // が削除できるようにしておく。
+      allow delete: if signedIn() && (
+        ownsAccount(resource.data.from_id) || ownsAccount(resource.data.to_id)
+      );
+
+      allow update: if false;
+    }
+
+    // ---------------- reviews ----------------
+    // 支払い済みになった求人について、その求人の投稿者⇔採用者という
+    // 当事者同士だけが、お互いを星1〜5で評価できる。匿名のままでも
+    // 過去の取引実績が見えるようにし、使い捨てアカウントによる
+    // 詐欺的な行為を多少なりとも抑止するための仕組み。
+    // ドキュメントIDは「{jobId}_{from_id}」という決まった形にしており、
+    // これにより「同じ求人について同じ人が2回評価する」ことは
+    // (updateを禁止しているため)自然に防げる。
+    // 誰が読んでも良い公開情報として扱う(メッセージとは違いプライバシー
+    // 対象ではない)。
+    match /reviews/{reviewId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && reviewId == (request.resource.data.job_id + '_' + request.resource.data.from_id)
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && ownsAccount(request.resource.data.from_id)
+        && request.resource.data.from_id != request.resource.data.to_id
+        && get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.settled == true
+        && get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.hired_id != null
+        && (
+          (
+            get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.employer_id == request.resource.data.from_id
+            && get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.hired_id == request.resource.data.to_id
+          )
+          || (
+            get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.hired_id == request.resource.data.from_id
+            && get(/databases/$(database)/documents/jobs/$(request.resource.data.job_id)).data.employer_id == request.resource.data.to_id
+          )
+        );
+
+      // 評価は後から書き換え・取り消しができない(投稿後の報復的な改ざんを防ぐため)。
+      allow update, delete: if false;
+    }
+  }
+}
