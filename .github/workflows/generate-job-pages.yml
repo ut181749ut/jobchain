@@ -1,1 +1,42 @@
+name: Generate job pages for SEO
 
+on:
+  schedule:
+    # 3時間おきに自動実行(UTC基準)。手動実行も下のworkflow_dispatchから可能。
+    - cron: "0 */3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate job pages, sitemap, feed
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/generate-job-pages.mjs
+
+      - name: Commit and push changes if any
+        run: |
+          git config user.name "nandemoya-seo-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add jobs sitemap.xml robots.txt job-feed.xml
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットをスキップします。"
+          else
+            git commit -m "Update job pages for SEO"
+            git push
+          fi
