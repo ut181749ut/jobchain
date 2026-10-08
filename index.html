@@ -1,6 +1,22 @@
-<title>ジョブチェーン</title>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>なんでも屋さん | 匿名で使える求人マッチング・単発バイト掲示板</title>
+<meta name="description" content="なんでも屋さんは、登録不要・匿名で使える求人マッチング掲示板です。単発のお手伝いから在宅ワークまで、現金・ETH・Monero・Bitcoinなど好きな支払い方法で求人を投稿・応募できます。">
+<link rel="canonical" href="https://ut181749ut.github.io/jobchain/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "WebSite",
+  "name": "なんでも屋さん",
+  "url": "https://ut181749ut.github.io/jobchain/"
+}
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.17.0/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.99.0/lib/index.iife.min.js"></script>
 <style>
   :root {
     --bg: #f6f3ea;
@@ -706,6 +722,16 @@
 
   .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
 
+  .rating-badge {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--accent-strong);
+    background: var(--surface-2);
+    border-radius: 5px;
+    padding: 1px 7px;
+    margin-left: 6px;
+  }
+
   .applicant-row {
     display: flex;
     align-items: center;
@@ -804,6 +830,8 @@
     .applicant-row .actions { width: 100%; display: flex; gap: 8px; }
   }
 </style>
+</head>
+<body>
 
 <div class="masthead">
   <a class="wordmark" href="#list">Job<span>Chain</span></a>
@@ -826,6 +854,7 @@
 
 <div class="site-footer">
   運営者はお金のやり取りを仲介・保証する登録業者ではありません。「実際にETHを送金する」は、あなた自身のウォレットから直接、または自分で用意した第三者チェック未実施の仕組みを通じて行う、あとから取り消せない本物の送金です。ご利用は自己責任でお願いします。送金前にはネットワーク(はじめは本物のお金を使わないSepoliaがおすすめです)・送り先・金額を必ず確認してください。本物のお金が動くネットワークでの利用や、実際のお金がからむ求人の掲載・応募については、お住まいの地域のルール・法律に沿っているか、ご自身でご確認ください。
+  <br><a href="jobs/">求人一覧(検索エンジン向けページ)</a>
 </div>
 
 <a href="#post" class="fab-post" id="fab-post" title="求人を投稿する" aria-label="求人を投稿する">
@@ -861,7 +890,9 @@
   "0xで始まる42文字(未使用なら空欄)": "42 characters starting with 0x (leave blank if unused)",
   "0xで始まる42文字のアドレス": "A 42-character address starting with 0x",
   "4で始まる95文字のMoneroアドレス": "A 95-character Monero address starting with 4",
+  "1/3/bc1のいずれかで始まるBitcoinアドレス": "A Bitcoin address starting with 1, 3, or bc1",
   "<strong>Monero (XMR)</strong> は送信者・受信者・金額を秘匿する匿名性の高い暗号資産です(次世代のプライバシー技術「FCMP++」により匿名集合が大幅に拡大される予定)。このアプリ自体は送金を行いません(Moneroの秘密鍵を扱わない設計です)が、支払いのタイミングで宛先・金額を埋め込んだ「支払いリンク(monero:リンク)」を自動生成するので、それをお互いのMoneroウォレットで開いて送金してください。": "<strong>Monero (XMR)</strong> is a highly private cryptocurrency that hides the sender, receiver, and amount (its anonymity set is set to expand greatly with the next-generation privacy technology \"FCMP++\"). This app itself never handles transfers (it's designed to never touch Monero private keys) — instead, at payment time it automatically generates a \"payment link\" (a monero: link) with the destination and amount embedded, which you then open in your own Monero wallets to send the payment.",
+  "<strong>Bitcoin (BTC)</strong> はブロックチェーン上で取引が公開される暗号資産で、Moneroのような秘匿性はありません(個人情報とひも付けなければ匿名性はありますが、取引自体は誰でも追跡できます)。このアプリ自体は送金を行わず(ブラウザに差し込める共通のウォレットの仕組みがBitcoinには無いため)、支払いのタイミングで宛先・金額を埋め込んだ「支払いリンク(bitcoin:リンク)」を自動生成するので、それをお互いのBitcoinウォレットで開いて送金してください。": "<strong>Bitcoin (BTC)</strong> is a cryptocurrency whose transactions are publicly visible on its blockchain, unlike Monero's privacy features (it's anonymous as long as it isn't linked to your identity, but the transaction itself can be traced by anyone). This app itself never handles transfers (there's no common wallet standard for Bitcoin that can be injected into a browser) — instead, at payment time it automatically generates a \"payment link\" (a bitcoin: link) with the destination and amount embedded, which you then open in your own Bitcoin wallets to send the payment.",
   "<strong>手渡し(現金)</strong>はアプリを一切介さない、最も匿名性の高い支払い方法です。採用後にチャットで日時・場所を相談し、対面で直接お支払いください。": "<strong>Cash (in-person)</strong> is the most private payment method, since it never goes through the app at all. After hiring, discuss the date/time and place via chat and pay directly in person.",
   "ETH(投稿時に見本残高から預ける)": "ETH (deposited from your demo balance when you post)",
   "ETHはすでに預けてあります。業務完了を確認したら「渡す」、取りやめる場合は「やめる」を押してください。": "The ETH has already been deposited. Once you confirm the work is done, press \"Release,\" or press \"Cancel\" if you want to call it off.",
@@ -869,17 +900,69 @@
   "Ethereumメインネット(本番)": "Ethereum Mainnet (production)",
   "MetaMaskなどのウォレット拡張機能が見つかりません。対応ブラウザ・拡張機能でお試しください。": "No wallet extension (such as MetaMask) was found. Please try a supported browser and extension.",
   "Monero / XMR(匿名決済)": "Monero / XMR (anonymous payment)",
+  "USDC(実際にウォレットから直接送金)": "USDC (send directly from your wallet)",
+  "USDT(実際にウォレットから直接送金)": "USDT (send directly from your wallet)",
   "Moneroアドレス": "Monero address",
   "Moneroアドレスを保存しました。": "Monero address saved.",
   "Monero決済(匿名):": "Monero payment (anonymous):",
+  "Bitcoinアドレス": "Bitcoin address",
+  "Bitcoinアドレスを保存しました。": "Bitcoin address saved.",
+  "Bitcoin決済:": "Bitcoin payment:",
+  "Bitcoin / BTC": "Bitcoin / BTC",
+  "Solana決済:": "Solana payment:",
+  "Solana / SOL(実際にウォレットから直接送金)": "Solana / SOL (real direct send from your wallet)",
+  "あなたのSolanaアドレス(本物)": "Your Solana address (real)",
+  "Solana決済の求人に採用された場合、投稿者はこのアドレス宛てに実際のSOLを送金できます(ETH用の「実際のウォレットアドレス」とは別の、Solana専用の欄です)。": "If you're hired for a job that pays in Solana, the job poster can send real SOL to this address (this is a separate field from the ETH \"real wallet address\", just for Solana).",
+  "Solanaアドレス": "Solana address",
+  "Base58形式の32〜44文字のSolanaアドレス": "A Base58 Solana address, 32–44 characters",
+  "正しいSolanaアドレスの形式ではありません(Base58形式の32〜44文字)。": "That doesn't look like a valid Solana address (Base58, 32–44 characters).",
+  "Solanaアドレスを保存しました。": "Solana address saved.",
+  "実際のSolana受け取り先アドレス": "Real Solana receiving address",
+  "投稿者がこのアドレス宛てに実際のSOLを送金できます。": "The job poster can send real SOL to this address.",
+  "まだ登録されていません。登録すると、投稿者がここへ実際のSOLを送金できるようになります。": "Not registered yet. Once registered, the job poster will be able to send real SOL here.",
+  "実際のSolanaウォレット(任意)": "Real Solana wallet (optional)",
+  "ウォレットをつなぐ(Phantomなど)": "Connect wallet (Phantom, etc.)",
+  "上のETH用ウォレットとは別物です。実際のSOLを送るときだけ使います。": "This is separate from the ETH wallet above. It's only used when sending real SOL.",
+  "Phantomなどのウォレット拡張機能が見つかりません。対応ブラウザ・拡張機能でお試しください。": "Couldn't find a wallet extension such as Phantom. Please try a supported browser/extension.",
+  "送金先のSolanaアドレスの形式が正しくありません。": "The recipient's Solana address isn't in a valid format.",
+  "実際に送金するには、まずウォレットを接続してください。": "To send a real payment, please connect your wallet first.",
+  "送金に使うネットワーク": "Network to send on",
+  "Solanaには、アプリ側からウォレットのネットワークを自動で切り替える仕組みがありません。ここで選んだ内容と、お使いのPhantomウォレット自体の設定(設定→開発者設定→ネットワークを変更)が一致しているか、送金前にご確認ください(違う場合は送金が失敗するだけで、資産が失われることはありません)。": "Solana has no mechanism for the app to automatically switch your wallet's network. Please make sure what you select here matches your Phantom wallet's own setting (Settings → Developer Settings → Change Network) before sending — if they don't match, the transaction will simply fail, and no funds will be at risk.",
+  "送金すると、あとから取り消せません。まずは練習用のネットワーク(Devnet)で試すことを強くおすすめします。": "Once sent, this can't be undone later. We strongly recommend trying it first on the practice network (Devnet).",
+  "Solana Devnet(テストネット)": "Solana Devnet (testnet)",
+  "Solanaメインネット(本番)": "Solana Mainnet (production)",
+  "<strong>Solana (SOL)</strong> はEthereum系(ETH/Polygon/BNBスマートチェーン)とは別系統の、処理速度の速さと手数料の安さで知られる暗号資産です。ETHのような見本残高の仕組みは無く、採用後に求人ページからPhantomなどのウォレットをつないで、実際のSOLを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません)。": "<strong>Solana (SOL)</strong> is a cryptocurrency on a separate chain from the Ethereum family (ETH/Polygon/BNB Smart Chain), known for fast transactions and low fees. There's no demo-balance mechanism like ETH — after hiring, you connect a wallet such as Phantom from the job page and send real SOL directly to the hired applicant's wallet address (the deposit-then-release escrow feature isn't supported for this method yet).",
+  "カード / Apple Pay": "Card / Apple Pay",
+  "カード / Apple Pay(Stripe決済リンク経由)": "Card / Apple Pay (via Stripe payment link)",
+  "カード決済:": "Card payment:",
+  "Stripeの決済ページを開く(外部サイト)": "Open Stripe's payment page (external site)",
+  "このリンクを開くと、Stripe社の決済ページ(なんでも屋さんとは別の外部サイト)に移動します。カード番号などの入力はStripeのページ上で行われ、このアプリはカード情報や決済処理に一切関与しません。": "Opening this link takes you to Stripe's own payment page (an external site separate from Nandemoya-san). Card details are entered on Stripe's page, and this app never touches your card information or the payment process.",
+  "<strong>デビット/クレジットカード・Apple Pay</strong>は、採用された人自身のStripeアカウントで発行した「決済リンク」を使って支払う方法です。報酬額は暗号資産ではなく日本円(JPY)で指定します。このアプリはカード番号などの決済情報を一切保存・送信しません(非カストディアル)。採用された人は無料のStripeアカウントを作成し、報酬額に合わせた決済リンクをマイページに登録してください。支払いはStripeを経由して、採用された人自身の銀行口座に入金されます。": "<strong>Debit/credit card & Apple Pay</strong> is paid using a \"payment link\" that the hired applicant issues themselves from their own Stripe account. The reward amount is set in Japanese yen (JPY), not a cryptocurrency. This app never stores or transmits card details or other payment information (non-custodial). The hired applicant needs to create a free Stripe account and register a payment link matching the reward amount on their dashboard. Payment goes through Stripe directly into the hired applicant's own bank account.",
+  "あなたのStripe決済リンク": "Your Stripe payment link",
+  "投稿者はこのリンクからカード・Apple Payで支払えます。": "The job poster can pay via this link using a card or Apple Pay.",
+  "まだ登録されていません。登録すると、投稿者がこのリンクからカード・Apple Payで支払えるようになります。": "Not registered yet. Once registered, the job poster will be able to pay via this link using a card or Apple Pay.",
+  "あなたの決済リンク(Stripe)": "Your payment link (Stripe)",
+  "Stripeの無料アカウントを作成し、報酬額に合わせた「決済リンク」(Payment Link)を発行して、そのURLをここに登録してください。採用後、投稿者はこのリンクからカード・Apple Payで支払えます。この決済方法を選ぶと、代金はStripeを経由してあなた自身の銀行口座に入金されます — なんでも屋さんはカード情報やお金そのものには一切触れません。": "Create a free Stripe account, issue a \"Payment Link\" for the exact reward amount, and register that URL here. Once hired, the job poster can pay via this link using a card or Apple Pay. Choosing this payment method means the money is sent through Stripe directly into your own bank account — Nandemoya-san never touches your card details or the money itself.",
+  "決済リンク(Stripe Payment Link)": "Payment link (Stripe Payment Link)",
+  "https://buy.stripe.com/ から始まるリンクなど": "A link such as one starting with https://buy.stripe.com/",
+  "正しい決済リンクの形式ではありません(https://で始まるURL)。": "That doesn't look like a valid payment link (must be a URL starting with https://).",
+  "決済リンクを保存しました。": "Payment link saved.",
+  "USDC決済:": "USDC payment:",
+  "USDT決済:": "USDT payment:",
   "Remixを開く(コード入力ずみ)": "Open Remix (code pre-filled)",
   "Sepolia(テストネット)": "Sepolia (testnet)",
   "Sepoliaに切替": "Switch to Sepolia",
+  "Polygon(本番)": "Polygon (production)",
+  "BNBスマートチェーン(本番)": "BNB Smart Chain (production)",
+  "Polygonに切替": "Switch to Polygon",
+  "BNBスマートチェーンに切替": "Switch to BNB Smart Chain",
   "Sepoliaネットワークの追加に失敗しました。ウォレット側で手動追加してください。": "Failed to add the Sepolia network. Please add it manually in your wallet.",
   "※ お金が動くタイミングでは必ずウォレットの確認画面が出ます。これは安全のための仕組みで、ここだけは自動で飛ばすことができません。それ以外はすべて下のボタン1つで自動でできます。": "* Whenever money actually moves, your wallet's confirmation screen will always appear. This is a safety measure and can't be skipped automatically — everything else can be done automatically with a single button below.",
   "← 求人一覧に戻る": "← Back to job list",
   "「ウォレットで開く」はMonero対応ウォレット(Cake Walletなど)がお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。": "\"Open in wallet\" only works if a Monero-compatible wallet (such as Cake Wallet) is installed on your device. In most cases, use \"Copy link\" and paste it into your wallet app instead.",
+  "「ウォレットで開く」はBitcoin対応ウォレットがお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。": "\"Open in wallet\" only works if a Bitcoin-compatible wallet is installed on your device. In most cases, use \"Copy link\" and paste it into your wallet app instead.",
   "あなたのMoneroアドレス": "Your Monero address",
+  "あなたのBitcoinアドレス": "Your Bitcoin address",
   "いいところ:": "The upside:",
   "うまくいかない場合・自分で操作したい場合(手動のやり方)": "If it doesn't work, or if you'd rather do it yourself (manual method)",
   "お金を一旦預けてから渡す機能(任意)": "Deposit-then-release feature (optional)",
@@ -942,7 +1025,7 @@
   "コード(手動でコピーしたい場合)": "Code (if you'd like to copy it manually)",
   "コードの変換結果が見つかりませんでした。": "Could not find the compiled contract output.",
   "コードを変換しています(初回は少し時間がかかります)…": "Compiling the code (this may take a bit the first time)…",
-  "ジョブチェーン": "JobChain",
+  "なんでも屋さん | 匿名で使える求人マッチング・単発バイト掲示板": "Nandemoya-san | Anonymous Job Matching & Gig Board",
   "スキル / タグ (カンマ区切り)": "Skills / tags (comma-separated)",
   "スキル未登録": "No skills registered",
   "チャット": "Chat",
@@ -962,7 +1045,7 @@
   "ログアウトしました。": "Logged out.",
   "ログイン": "Log in",
   "ログイン不要 — 匿名ゲストのまま投稿・応募できます。ここではウォレット接続の代わりにアカウントを選べます。": "No login required — you can post and apply as Anonymous Guest. Here you can choose an account instead of connecting a wallet.",
-  "ログイン不要・匿名のまま投稿できます。支払い方法はETH・Monero・手渡し・その他から選べます。": "No login required — you can post anonymously. Choose from ETH, Monero, cash, or other payment methods.",
+  "ログイン不要・匿名のまま投稿できます。支払い方法はETH・USDC・USDT・Solana・Monero・Bitcoin・カード/Apple Pay・手渡し・その他から選べます。": "No login required — you can post anonymously. Choose from ETH, USDC, USDT, Solana, Monero, Bitcoin, card/Apple Pay, cash, or other payment methods.",
   "下の「Remixを開く」ボタンを押す(「Remix」という、ブラウザで動く無料ツールが、コードを入力した状態で開きます)": "Press the \"Open Remix\" button below (this opens \"Remix,\" a free browser-based tool, with the code already entered)",
   "下のアカウント一覧とは別物です。実際のETHを送るときだけ使います。はじめは「Sepolia」という、本物のお金を使わない練習用のネットワークがおすすめです。": "This is separate from the account list below. It's only used when sending real ETH. To start, we recommend \"Sepolia,\" a test network that doesn't use real money.",
   "下の欄を空欄のままにしておけば、今まで通り直接送金だけが使えます。これは使いたい人だけの追加オプションです。": "If you leave the field below blank, you can keep using direct payments only, just as before. This is an extra option only for those who want to use it.",
@@ -997,6 +1080,7 @@
   "匿名決済 ・ ": "Anonymous payment ・ ",
   "受け取りアドレスは採用後にチャットで共有されます。": "The receiving address will be shared via chat after hiring.",
   "受け取り用Moneroアドレス(任意・後からチャットで伝えることも可能)": "Monero address to receive payment (optional — you can also share it via chat later)",
+  "受け取り用Bitcoinアドレス(任意・後からチャットで伝えることも可能)": "Bitcoin address to receive payment (optional — you can also share it via chat later)",
   "名前 / 屋号など": "Name / business name, etc.",
   "名前やスキルはウォレットアドレスに紐づけて保存されます(オンチェーンには保存されません)。": "Your name and skills are saved tied to your wallet address (not stored on-chain).",
   "報酬": "Reward",
@@ -1034,6 +1118,8 @@
   "投稿元": "Posted by",
   "投稿日": "Posted on",
   "投稿時に指定した報酬は、まず見本の残高上で預けたことになります(体験用の見本です)。応募は誰でも無料でできます。採用後は、求人ページからウォレットをつないで本物のETHを送ることもできます。": "The reward you specify when posting is treated as deposited from your demo balance (this is just a sample for trying things out). Anyone can apply for free. After hiring, you can also connect a wallet from the job page to send real ETH.",
+  "<strong>USDC</strong> は米ドルと価値が連動するよう設計された「ステーブルコイン」です。ETHと違い、報酬の価値が暗号資産相場の変動で目減りしにくいのが特徴です。ETHのような見本残高の仕組みは無く、採用後に求人ページからウォレットをつないで、実際のUSDCを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません)。": "<strong>USDC</strong> is a \"stablecoin\" designed to track the value of the US dollar. Unlike ETH, the reward's value is much less likely to shrink due to crypto market swings. There's no demo-balance mechanism like ETH's — after hiring, you connect a wallet from the job page and send real USDC directly to the hired applicant's wallet address (the deposit-then-release escrow feature isn't supported for this yet).",
+  "<strong>USDT</strong> はUSDCと同じく米ドル連動の「ステーブルコイン」です。ETHのような見本残高の仕組みは無く、採用後に求人ページからウォレットをつないで、実際のUSDTを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません。信頼できる公式テストネット版が無いため、本番ネットワークのみの対応です)。": "<strong>USDT</strong> is another US dollar-pegged \"stablecoin,\" just like USDC. There's no demo-balance mechanism like ETH's — after hiring, you connect a wallet from the job page and send real USDT directly to the hired applicant's wallet address (the deposit-then-release escrow feature isn't supported for this yet, and since there's no reliable official testnet version, only Ethereum Mainnet is supported).",
   "投稿者": "Poster",
   "投稿者(採用側)": "Poster (hiring side)",
   "投稿者がこのアドレス宛てに実際のETHを送金できます。": "The job poster can send real ETH to this address.",
@@ -1070,6 +1156,17 @@
   "本物のお金が動くネットワークに預けます。このやり方は第三者のチェックを受けていません。本当に実行しますか?": "This will deposit funds on a network where real money is involved. This method hasn't been reviewed by any third party. Are you sure you want to proceed?",
   "本番ネットワーク(Mainnet)で実際の資産を送金します。この操作は取り消せません。本当に実行しますか?": "This will send real assets on the production network (Mainnet). This action cannot be undone. Are you sure you want to proceed?",
   "広告": "Ad",
+  "支払い済みになった求人についてのみ評価できます。": "You can only leave a review for a job that has been marked as paid.",
+  "この求人の当事者同士でのみ評価できます。": "Only the two people involved in this job can review each other.",
+  "評価は星1〜5個の範囲で指定してください。": "Please choose a rating between 1 and 5 stars.",
+  "この求人についてはすでに評価済みです。": "You've already reviewed this job.",
+  "評価の送信に失敗しました。": "Failed to submit the review.",
+  "支払い済みにすると、お互いを評価できるようになります。": "Once the job is marked as paid, you'll both be able to review each other.",
+  "あなたの評価": "Your review",
+  "コメント(任意)": "Comment (optional)",
+  "評価を送信する": "Submit review",
+  "評価を送信しました。": "Review submitted.",
+  "まだ評価がありません": "No reviews yet",
   "検索": "Search",
   "検索キーワード": "Keyword",
   "検索条件に一致する求人の一覧です。": "Here are the jobs matching your search.",
@@ -1103,6 +1200,7 @@
   "画像を削除": "Remove image",
   "画像ファイルを選択してください。": "Please select an image file.",
   "登録しておくと、Monero決済で求人を投稿するときに自動で入力されます(採用後にチャットで相手に共有する用途にも使えます)。": "If you register one, it will be filled in automatically when posting a Monero-paying job (you can also use it to share with the other person via chat after hiring).",
+  "登録しておくと、Bitcoin決済で求人を投稿するときに自動で入力されます(採用後にチャットで相手に共有する用途にも使えます)。": "If you register one, it will be filled in automatically when posting a Bitcoin-paying job (you can also use it to share with the other person via chat after hiring).",
   "登録してログイン": "Sign up and log in",
   "登録に失敗しました。": "Failed to register.",
   "確認済み": "Confirmed",
@@ -1141,6 +1239,9 @@
   "預けたお金を「渡す」か「やめる」かを決められるのは投稿者だけです。他の誰かが間に入って判断してくれるわけではないので、投稿者がどちらも押さなければ、お金は預けたままになってしまいます。トラブルを完全に防げる仕組みではありません。": "Only the job poster can decide whether to \"release\" or \"cancel\" deposited funds. No one else steps in to make that call, so if the poster never presses either button, the money simply stays deposited. This is not a mechanism that can fully prevent disputes.",
   "預ける": "Deposit",
   "預け先のアドレスが設定されていません。": "No escrow address has been set.",
+  "このネットワークでは、このトークンのコントラクトアドレスが登録されていません。": "No contract address is registered for this token on this network.",
+  "今は、運営が用意した共有の預け先(下の入力欄は空欄のまま)が自動で使われています。自分専用の預け先を使いたい場合だけ、下に自分のアドレスを入力してください。": "A shared escrow address provided by the site operator is currently being used automatically (leave the field below blank). Only enter your own address below if you want to use your own dedicated escrow instead.",
+  "空欄=共有の既定値を使う": "Blank = use the shared default",
   "預け先の住所(アドレス)": "Deposit address",
   "預け先の設定を解除しました。": "Deposit address setting cleared.",
   "預け先を自動で作る": "Create a deposit address automatically",
@@ -1270,6 +1371,8 @@
 
   const MESSAGES = {}; // room -> [{fromId, text, at}]
 
+  const REVIEWS = []; // { id, job_id, from_id, to_id, rating, comment, created_at }
+
   let currentAccountId = null;
 
   /* ---------------------------------------------------------------- */
@@ -1360,6 +1463,11 @@
   const PAY_METHODS = {
     eth: { label: "ETH", unit: "ETH", anon: false, fmt: (n) => Number(n).toFixed(4) + " ETH" },
     xmr: { label: "Monero (XMR)", unit: "XMR", anon: true, fmt: (n) => Number(n).toFixed(4) + " XMR" },
+    btc: { label: "Bitcoin (BTC)", unit: "BTC", anon: false, fmt: (n) => Number(n).toFixed(6) + " BTC" },
+    usdc: { label: "USDC", unit: "USDC", anon: false, fmt: (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USDC" },
+    usdt: { label: "USDT", unit: "USDT", anon: false, fmt: (n) => Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USDT" },
+    sol: { label: "Solana (SOL)", unit: "SOL", anon: false, fmt: (n) => Number(n).toFixed(4) + " SOL" },
+    card: { get label() { return tr("カード / Apple Pay"); }, get unit() { return LANG === "en" ? "JPY" : "円"; }, anon: false, fmt: (n) => "¥" + Number(n).toLocaleString("ja-JP") },
     cash: { get label() { return tr("手渡し(現金)"); }, get unit() { return LANG === "en" ? "JPY" : "円"; }, anon: true, fmt: (n) => "¥" + Number(n).toLocaleString("ja-JP") },
     other: { get label() { return tr("その他"); }, get unit() { return LANG === "en" ? "JPY" : "円"; }, anon: false, fmt: (n) => "¥" + Number(n).toLocaleString("ja-JP") },
   };
@@ -1412,7 +1520,19 @@
     return `monero:${address}${qs ? "?" + qs : ""}`;
   }
 
-  function paymentLinkCardHtml({ idPrefix, heading, uri, note }) {
+  // Bitcoinの "bitcoin:" URIスキーム(BIP21)で支払いリンクを生成する。
+  // Moneroと同じ理由(ブラウザに差し込める共通のウォレット標準がBitcoinには
+  // 無いため)で、このアプリ自体は送金を行わず、リンクを自分のウォレットアプリ
+  // で開いてもらう形にしている。
+  function buildBitcoinUri({ address, amount, description }) {
+    const params = new URLSearchParams();
+    if (amount) params.set("amount", Number(amount).toFixed(8));
+    if (description) params.set("message", description);
+    const qs = params.toString();
+    return `bitcoin:${address}${qs ? "?" + qs : ""}`;
+  }
+
+  function paymentLinkCardHtml({ idPrefix, heading, uri, note, walletNote }) {
     return `
       <div class="card" style="margin-top:12px;">
         <div class="section-title">${heading}</div>
@@ -1423,7 +1543,27 @@
           <span style="font-size:11.5px; color:var(--text-dim);">${tr("(対応ウォレットアプリが必要です)")}</span>
         </div>
         <p style="font-size:12px; color:var(--text-dim); margin-top:10px;">${note || ""}</p>
-        <div class="wallet-note">${tr("「ウォレットで開く」はMonero対応ウォレット(Cake Walletなど)がお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。")}</div>
+        <div class="wallet-note">${walletNote || tr("「ウォレットで開く」はMonero対応ウォレット(Cake Walletなど)がお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。")}</div>
+      </div>
+    `;
+  }
+
+  // デビット/クレジットカード・Apple Pay(Stripeの「決済リンク」)用のカード。
+  // bitcoin:/monero: のようなウォレットアプリ向けURIスキームではなく、
+  // Stripe自身の決済ページを指す普通のhttps:// URLをそのまま開く形になるため、
+  // paymentLinkCardHtml(「ウォレットで開く」前提のUI)は使わず、外部サイトへ
+  // 移動する旨をはっきり示す、もっと単純なリンクカードとして別に用意する。
+  function stripeLinkCardHtml({ idPrefix, heading, url, note }) {
+    return `
+      <div class="card" style="margin-top:12px;">
+        <div class="section-title">${heading}</div>
+        <div class="xmr-address" id="${idPrefix}-uri">${escapeHtml(url)}</div>
+        <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; align-items:center;">
+          <a class="btn-small btn-accent" style="text-decoration:none; display:inline-flex; align-items:center;" href="${escapeHtml(url)}" target="_blank" rel="noopener" id="${idPrefix}-open">${tr("Stripeの決済ページを開く(外部サイト)")}</a>
+          <button class="btn-small btn-ghost" id="${idPrefix}-copy" type="button">${tr("リンクをコピー")}</button>
+        </div>
+        <p style="font-size:12px; color:var(--text-dim); margin-top:10px;">${note || ""}</p>
+        <div class="wallet-note">${tr("このリンクを開くと、Stripe社の決済ページ(なんでも屋さんとは別の外部サイト)に移動します。カード番号などの入力はStripeのページ上で行われ、このアプリはカード情報や決済処理に一切関与しません。")}</div>
       </div>
     `;
   }
@@ -1471,7 +1611,10 @@
       balance: Number(row.balance) || 0,
       pending: Number(row.pending) || 0,
       moneroAddress: row.monero_address || "",
+      bitcoinAddress: row.bitcoin_address || "",
       realWallet: row.real_wallet || "",
+      solanaAddress: row.solana_address || "",
+      stripeLink: row.stripe_link || "",
       isGuest: false,
       isDeleted: !!row.is_deleted,
       createdAt: row.created_at,
@@ -1495,7 +1638,10 @@
       balance: 0,
       pending: 0,
       monero_address: "",
+      bitcoin_address: "",
       real_wallet: "",
+      solana_address: "",
+      stripe_link: "",
       is_deleted: false,
       created_at: new Date().toISOString(),
     };
@@ -1579,7 +1725,7 @@
 
     try {
       await updateDoc(doc(db, "accounts", id), {
-        is_deleted: true, name: tr("削除済みアカウント"), bio: "", skills: "", role: "", monero_address: "", real_wallet: "",
+        is_deleted: true, name: tr("削除済みアカウント"), bio: "", skills: "", role: "", monero_address: "", bitcoin_address: "", real_wallet: "", solana_address: "", stripe_link: "",
       });
     } catch (e) {
       throw new Error(tr("アカウントの削除に失敗しました。"));
@@ -1597,7 +1743,10 @@
     acct.skills = "";
     acct.role = "";
     acct.moneroAddress = "";
+    acct.bitcoinAddress = "";
     acct.realWallet = "";
+    acct.solanaAddress = "";
+    acct.stripeLink = "";
 
     if (currentAccountId === id) {
       const remaining = ACCOUNTS.filter((a) => a.mine && !a.isDeleted);
@@ -1666,6 +1815,7 @@
       reward: Number(row.reward) || 0,
       workDate: row.work_date || "",
       moneroAddress: row.pay_method === "xmr" ? (row.monero_address || "") : undefined,
+      bitcoinAddress: row.pay_method === "btc" ? (row.bitcoin_address || "") : undefined,
       otherMethodLabel: row.pay_method === "other" ? (row.other_method_label || "") : undefined,
       image: row.image_url || "",
       isOpen: !!row.is_open,
@@ -1680,7 +1830,7 @@
     return { accountId: row.applicant_id, appliedAt: row.applied_at };
   }
 
-  async function postJob({ title, description, location, payMethod, reward, moneroAddress, workDate, otherMethodLabel, image }) {
+  async function postJob({ title, description, location, payMethod, reward, moneroAddress, bitcoinAddress, workDate, otherMethodLabel, image }) {
     const acct = me();
     const isEth = payMethod === "eth";
     const { collection, addDoc, doc, updateDoc } = fsMod;
@@ -1693,6 +1843,7 @@
       reward,
       work_date: workDate || "",
       monero_address: payMethod === "xmr" ? (moneroAddress || "") : "",
+      bitcoin_address: payMethod === "btc" ? (bitcoinAddress || "") : "",
       other_method_label: payMethod === "other" ? (otherMethodLabel || "") : "",
       image_url: image || "",
       is_open: true,
@@ -1805,6 +1956,118 @@
     job.settled = true;
   }
 
+  // 求人ごとの「評価(レビュー)」。支払い済みになった求人についてのみ、
+  // その求人の投稿者⇔採用者の当事者同士が、お互いを1〜5の星で評価できる。
+  // 匿名のままでも、過去の取引実績(星評価)が見えるようにすることで、
+  // 使い捨てアカウントによる詐欺的な行為を多少なりとも抑止する狙い。
+  function hasReviewed(jobId, fromId) {
+    return REVIEWS.some((r) => r.job_id === jobId && r.from_id === fromId);
+  }
+
+  // 指定したアカウントが「評価された側」になっているレビューをもとに、
+  // 平均評価と件数を計算する。レビューが1件も無ければnullを返す。
+  function accountRatingStats(accountId) {
+    const list = REVIEWS.filter((r) => r.to_id === accountId);
+    if (!list.length) return null;
+    const avg = list.reduce((sum, r) => sum + r.rating, 0) / list.length;
+    return { avg, count: list.length };
+  }
+
+  function ratingBadgeHtml(accountId) {
+    const stats = accountRatingStats(accountId);
+    if (!stats) return "";
+    return `<span class="rating-badge">★${stats.avg.toFixed(1)} (${stats.count})</span>`;
+  }
+
+  async function submitReview(jobId, toId, rating, comment) {
+    const job = getJob(jobId);
+    const acct = me();
+    if (!job.settled) throw new Error(tr("支払い済みになった求人についてのみ評価できます。"));
+    const participantIds = [job.employerId, job.hiredId];
+    if (!job.hiredId || !participantIds.includes(acct.id) || !participantIds.includes(toId) || acct.id === toId) {
+      throw new Error(tr("この求人の当事者同士でのみ評価できます。"));
+    }
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      throw new Error(tr("評価は星1〜5個の範囲で指定してください。"));
+    }
+    if (hasReviewed(jobId, acct.id)) throw new Error(tr("この求人についてはすでに評価済みです。"));
+    const { doc, setDoc } = fsMod;
+    const reviewId = `${jobId}_${acct.id}`;
+    const payload = {
+      job_id: jobId,
+      from_id: acct.id,
+      to_id: toId,
+      rating,
+      comment: (comment || "").slice(0, 500),
+      created_at: new Date().toISOString(),
+    };
+    try {
+      await setDoc(doc(db, "reviews", reviewId), payload);
+    } catch (e) {
+      throw new Error(tr("評価の送信に失敗しました。"));
+    }
+    REVIEWS.push({ id: reviewId, ...payload });
+  }
+
+  // 求人詳細ページの下部に表示する、評価フォーム/評価結果の描画。
+  // 投稿者・採用者どちらのビューからも共通で呼べるよう独立した関数にしている。
+  function renderReviewSection(job) {
+    const container = document.getElementById("review-section");
+    if (!container) return;
+    const acct = me();
+    const participantIds = [job.employerId, job.hiredId].filter(Boolean);
+    if (!job.hiredId || !participantIds.includes(acct.id)) {
+      container.innerHTML = "";
+      return;
+    }
+    const otherId = acct.id === job.employerId ? job.hiredId : job.employerId;
+    const other = getAccount(otherId);
+    const otherStats = accountRatingStats(otherId);
+    const myExistingReview = REVIEWS.find((r) => r.job_id === job.id && r.from_id === acct.id);
+
+    let html = `<div class="card" style="margin-top:18px;">`;
+    html += `<div class="section-title">${LANG === "en" ? `Review ${escapeHtml(other.name)}` : `${escapeHtml(other.name)}を評価する`}</div>`;
+    html += `<div style="font-size:13px; color:var(--text-dim); margin-bottom:12px;">${LANG === "en" ? "Overall rating: " : "総合評価: "}${otherStats ? `★${otherStats.avg.toFixed(1)} (${otherStats.count})` : tr("まだ評価がありません")}</div>`;
+
+    if (!job.settled) {
+      html += `<p style="font-size:13px; color:var(--text-dim);">${tr("支払い済みにすると、お互いを評価できるようになります。")}</p>`;
+    } else if (myExistingReview) {
+      html += `
+        <div style="font-size:14px;">
+          ${tr("あなたの評価")}: ${"★".repeat(myExistingReview.rating)}${"☆".repeat(5 - myExistingReview.rating)}
+          ${myExistingReview.comment ? `<div style="margin-top:6px; font-size:13px; color:var(--text-dim); white-space:pre-wrap;">${escapeHtml(myExistingReview.comment)}</div>` : ""}
+        </div>
+      `;
+    } else {
+      html += `
+        <select id="review-rating" style="margin-bottom:8px;">
+          ${[5, 4, 3, 2, 1].map((n) => `<option value="${n}">${"★".repeat(n)}${"☆".repeat(5 - n)}</option>`).join("")}
+        </select>
+        <textarea id="review-comment" rows="2" maxlength="500" placeholder="${tr("コメント(任意)")}" style="width:100%; display:block; margin-bottom:8px;"></textarea>
+        <button type="button" class="btn-accent btn-small" id="review-submit-btn">${tr("評価を送信する")}</button>
+      `;
+    }
+    html += `</div>`;
+    container.innerHTML = html;
+
+    const submitBtn = document.getElementById("review-submit-btn");
+    if (submitBtn) {
+      submitBtn.addEventListener("click", async () => {
+        submitBtn.disabled = true;
+        const rating = Number(document.getElementById("review-rating").value);
+        const comment = document.getElementById("review-comment").value.trim();
+        try {
+          await submitReview(job.id, otherId, rating, comment);
+          toast(tr("評価を送信しました。"), "success");
+          renderReviewSection(job);
+        } catch (err) {
+          toast((err && err.message) || tr("評価の送信に失敗しました。"), "error");
+          submitBtn.disabled = false;
+        }
+      });
+    }
+  }
+
   async function closeJob(jobId) {
     const job = getJob(jobId);
     const acct = me();
@@ -1891,11 +2154,18 @@
   async function fetchAllData() {
     const { collection, getDocs, query, orderBy, where } = fsMod;
 
-    const [accSnap, jobSnap, appSnap] = await Promise.all([
+    const [accSnap, jobSnap, appSnap, reviewSnap] = await Promise.all([
       getDocs(query(collection(db, "accounts"), orderBy("created_at", "asc"))),
       getDocs(query(collection(db, "jobs"), orderBy("created_at", "desc"))),
       getDocs(collection(db, "applications")),
+      getDocs(collection(db, "reviews")),
     ]);
+
+    // レビューは(メッセージと違って)誰が読んでも良い情報(お互いの信頼度の
+    // 目安として公開する評価)なので、求人・アカウントと同じく絞り込み無しで
+    // 全件取得する。
+    REVIEWS.length = 0;
+    REVIEWS.push(...reviewSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
 
     ACCOUNTS.length = 0;
     ACCOUNTS.push(...accSnap.docs.map((d) => mapAccountRow({ id: d.id, ...d.data() })));
@@ -1991,8 +2261,10 @@
 
   function networksByLang() {
     return {
-      "0xaa36a7": { name: tr("Sepolia(テストネット)"), explorer: "https://sepolia.etherscan.io", isTestnet: true },
-      "0x1": { name: tr("Ethereumメインネット(本番)"), explorer: "https://etherscan.io", isTestnet: false },
+      "0xaa36a7": { name: tr("Sepolia(テストネット)"), explorer: "https://sepolia.etherscan.io", isTestnet: true, symbol: "ETH" },
+      "0x1": { name: tr("Ethereumメインネット(本番)"), explorer: "https://etherscan.io", isTestnet: false, symbol: "ETH" },
+      "0x89": { name: tr("Polygon(本番)"), explorer: "https://polygonscan.com", isTestnet: false, symbol: "POL" },
+      "0x38": { name: tr("BNBスマートチェーン(本番)"), explorer: "https://bscscan.com", isTestnet: false, symbol: "BNB" },
     };
   }
   function networkInfo(chainIdHex) {
@@ -2000,6 +2272,7 @@
       name: LANG === "en" ? `Unsupported network (${chainIdHex})` : `未対応のネットワーク(${chainIdHex})`,
       explorer: null,
       isTestnet: null,
+      symbol: "ETH",
     };
   }
   function networkBadgeHtml(chainIdHex) {
@@ -2007,12 +2280,40 @@
     const cls = info.isTestnet === true ? "net-test" : info.isTestnet === false ? "net-main" : "net-unknown";
     return `<span class="network-badge ${cls}">${escapeHtml(info.name)}</span>`;
   }
+  // 「本物のお金が動くネットワークか」の判定。既知の練習用ネットワーク
+  // (Sepoliaなど)以外は、未対応・未知のネットワークも含めてすべて
+  // 「本物」側として扱う(安全のため、知らないネットワーク=安全、とは
+  // 絶対にみなさない)。
+  const KNOWN_TESTNET_CHAIN_IDS = new Set(["0xaa36a7"]);
+  function isMainnetNetwork(chainIdHex) {
+    return !KNOWN_TESTNET_CHAIN_IDS.has(chainIdHex);
+  }
+  // 直接送金ボタンに表示する金額は、見本残高(常にETH建て)とは違い、
+  // 実際につながっているネットワークのネイティブ通貨(ETH/POL/BNBなど)を
+  // 正しく表示する。
+  function fmtNativeCurrency(n, chainIdHex) {
+    return Number(n).toFixed(4) + " " + networkInfo(chainIdHex).symbol;
+  }
   const SEPOLIA_PARAMS = {
     chainId: "0xaa36a7",
     chainName: "Sepolia",
     nativeCurrency: { name: "SepoliaETH", symbol: "ETH", decimals: 18 },
     rpcUrls: ["https://rpc.sepolia.org"],
     blockExplorerUrls: ["https://sepolia.etherscan.io"],
+  };
+  const POLYGON_PARAMS = {
+    chainId: "0x89",
+    chainName: "Polygon",
+    nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+    rpcUrls: ["https://polygon-rpc.com"],
+    blockExplorerUrls: ["https://polygonscan.com"],
+  };
+  const BSC_PARAMS = {
+    chainId: "0x38",
+    chainName: "BNB Smart Chain",
+    nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+    rpcUrls: ["https://bsc-dataseed.binance.org"],
+    blockExplorerUrls: ["https://bscscan.com"],
   };
 
   // シンプルなエスクローコントラクトのABI(上級者向け・任意設定)。
@@ -2033,13 +2334,13 @@
   const ESCROW_SOURCE_CODE = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/// @title JobChainEscrow
+/// @title NandemoyaEscrow
 /// @notice シンプルな報酬エスクロー。依頼側(client)が受注側(worker)向けに
 ///         ETHを預け、業務完了後にclientがrelease()で送金するか、
 ///         合意のうえでrefund()して自分に取り戻す。
 /// @dev 監査は受けていません。解放・返金を判断できるのはclientのみで、
 ///      第三者による仲裁の仕組みはありません。利用は自己責任です。
-contract JobChainEscrow {
+contract NandemoyaEscrow {
     struct Job {
         address client;
         address worker;
@@ -2093,6 +2394,14 @@ contract JobChainEscrow {
 
   const REAL_SETTINGS_KEY = "jobchain-real-settings-v1";
   const realSettings = { escrowAddress: "" };
+
+  // jobchain運営(大川さん)が一度だけ「自動で作る」で用意した、みんなが
+  // 共有で使える既定の預け先アドレス。これが設定されていれば、投稿者は
+  // 自分で預け先を用意しなくても、預けてから渡す方式をすぐに使える。
+  // (空欄の間は、今まで通り各自が自分で預け先を用意する必要がある)
+  // 投稿者が下の設定欄に自分専用のアドレスを入力した場合は、そちらが優先される。
+  const DEFAULT_ESCROW_ADDRESS = "";
+
   function loadRealSettings() {
     try {
       const raw = localStorage.getItem(REAL_SETTINGS_KEY);
@@ -2103,6 +2412,15 @@ contract JobChainEscrow {
   }
   function saveRealSettings() {
     try { localStorage.setItem(REAL_SETTINGS_KEY, JSON.stringify(realSettings)); } catch {}
+  }
+
+  // 投稿者自身が設定したアドレスがあればそれを、無ければ運営の共有既定値を返す。
+  // どちらも無ければ空文字("預け先なし"扱い)。
+  function effectiveEscrowAddress() {
+    return (realSettings.escrowAddress || "").trim() || DEFAULT_ESCROW_ADDRESS;
+  }
+  function isUsingDefaultEscrow() {
+    return !realSettings.escrowAddress && !!DEFAULT_ESCROW_ADDRESS;
   }
 
   const realWallet = { address: null, chainId: null };
@@ -2140,16 +2458,19 @@ contract JobChainEscrow {
     renderShell();
   }
 
-  async function switchToSepolia() {
+  // Sepolia・Polygon・BNBスマートチェーンなど、ウォレット側の「ネットワーク
+  //切り替え」操作を共通化したもの。対象のネットワークがまだウォレットに
+  // 登録されていない場合は、追加のダイアログも自動で出す。
+  async function switchToNetwork(params) {
     if (!hasInjectedWallet()) return;
     try {
-      await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: SEPOLIA_PARAMS.chainId }] });
+      await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: params.chainId }] });
     } catch (err) {
       if (err && err.code === 4902) {
         try {
-          await window.ethereum.request({ method: "wallet_addEthereumChain", params: [SEPOLIA_PARAMS] });
+          await window.ethereum.request({ method: "wallet_addEthereumChain", params: [params] });
         } catch {
-          toast(tr("Sepoliaネットワークの追加に失敗しました。ウォレット側で手動追加してください。"), "error");
+          toast(LANG === "en" ? `Failed to add the ${params.chainName} network. Please add it manually in your wallet.` : `${params.chainName}ネットワークの追加に失敗しました。ウォレット側で手動追加してください。`, "error");
           return;
         }
       } else {
@@ -2162,6 +2483,9 @@ contract JobChainEscrow {
     } catch {}
     renderShell();
   }
+  async function switchToSepolia() { return switchToNetwork(SEPOLIA_PARAMS); }
+  async function switchToPolygon() { return switchToNetwork(POLYGON_PARAMS); }
+  async function switchToBsc() { return switchToNetwork(BSC_PARAMS); }
 
   if (hasInjectedWallet()) {
     if (typeof window.ethereum.on === "function") {
@@ -2200,9 +2524,168 @@ contract JobChainEscrow {
     return signer.sendTransaction({ to: toAddress, value: ethers.parseEther(String(amountEth)) });
   }
 
+  // USDC/USDTは「Ethereumアドレス宛てに送る」という点ではETHと全く同じなので、
+  // 受け取り用アドレスもETHと同じ「実際のウォレットアドレス」欄(real_wallet)を
+  // そのまま使い回す。違うのは、ETH自体ではなく、そのネットワーク上のERC-20
+  // トークン(USDC/USDT)のコントラクトに対して transfer() を呼ぶ点だけ。
+  // コントラクトアドレスは公式に公開されているものをネットワークごとに登録して
+  // おり、USDTは信頼できる公式テストネット版が無いため本番ネットワークのみ対応。
+  const STABLECOIN_TOKENS = {
+    usdc: {
+      symbol: "USDC",
+      contracts: {
+        "0x1": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // Ethereum mainnet(Circle公式)
+        "0xaa36a7": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238", // Sepolia(Circle公式テストネット版)
+      },
+    },
+    usdt: {
+      symbol: "USDT",
+      contracts: {
+        "0x1": "0xdAC17F958D2ee523a2206206994597C13D831ec7", // Ethereum mainnet(Tether公式)
+        // Sepoliaなど、信頼できる公式テストネット版が無いため本番ネットワークのみ対応。
+      },
+    },
+  };
+  const ERC20_ABI = [
+    "function transfer(address to, uint256 amount) returns (bool)",
+    "function decimals() view returns (uint8)",
+  ];
+  function isStablecoinMethod(payMethod) { return payMethod === "usdc" || payMethod === "usdt"; }
+  function stablecoinContractAddress(payMethod, chainId) {
+    const token = STABLECOIN_TOKENS[payMethod];
+    return (token && token.contracts[chainId]) || null;
+  }
+  function getStablecoinContract(payMethod, chainId, signerOrProvider) {
+    const address = stablecoinContractAddress(payMethod, chainId);
+    if (!address || !hasEthersLib()) return null;
+    return new ethers.Contract(address, ERC20_ABI, signerOrProvider);
+  }
+  async function sendStablecoinPayment({ payMethod, toAddress, amount }) {
+    if (!ethersProvider) throw new Error(tr("ウォレットが接続されていません。"));
+    const signer = await ethersProvider.getSigner();
+    const contract = getStablecoinContract(payMethod, realWallet.chainId, signer);
+    if (!contract) throw new Error(tr("このネットワークでは、このトークンのコントラクトアドレスが登録されていません。"));
+    const decimals = await contract.decimals();
+    return contract.transfer(toAddress, ethers.parseUnits(String(amount), decimals));
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Solana(SOL)決済。EVM系(ETH/Polygon/BNB/USDC/USDT)とは完全に別の   */
+  /* ブロックチェーンなので、ウォレット(MetaMask)やethers.jsとは独立した */
+  /* 状態・ライブラリ(Phantomウォレット + solana/web3.js)で扱う。       */
+  /* アドレスの形式もEVMのアドレスとは違うため、real_walletとは共用せず、 */
+  /* 専用のsolana_addressフィールドを使う。                              */
+  /* ---------------------------------------------------------------- */
+
+  function isSolanaMethod(payMethod) { return payMethod === "sol"; }
+
+  // Phantomは window.phantom.solana への注入が今の推奨方法(複数のSolana対応
+  // ウォレットが同時にインストールされていても確実にPhantomを見分けられるため)。
+  // 古い window.solana だけが使えるケース(別のウォレットなど)にも一応対応しておく。
+  function getSolanaProvider() {
+    if (typeof window === "undefined") return null;
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return window.phantom.solana;
+    if (window.solana) return window.solana;
+    return null;
+  }
+  function hasSolanaWallet() { return !!getSolanaProvider(); }
+  function hasSolanaWeb3Lib() { return typeof solanaWeb3 !== "undefined"; }
+
+  // Solanaには、EVMの wallet_switchEthereumChain のような「dAppからウォレットの
+  // 接続先ネットワークを切り替えさせる」標準APIが無い(ネットワークは利用者が
+  // Phantom自体の設定画面で選ぶ)。そのため、ここで選ぶのはあくまで
+  // 「このアプリが残高確認・送金に使うRPC接続先」であり、実際にPhantomが
+  // どのネットワークに向いているかは別問題(食い違うと送金が失敗するだけで、
+  // 資産が失われることはない)。安全のため既定値は本番ではないdevnet。
+  let solanaNetwork = "devnet"; // "devnet" | "mainnet-beta"
+  const solanaWallet = { address: null };
+
+  function isSolanaMainnet() { return solanaNetwork === "mainnet-beta"; }
+  function solanaNetworkLabel(net) {
+    return net === "mainnet-beta"
+      ? tr("Solanaメインネット(本番)")
+      : tr("Solana Devnet(テストネット)");
+  }
+  function solanaExplorerUrl(signature, network) {
+    const net = network || solanaNetwork;
+    const cluster = net === "mainnet-beta" ? "" : `?cluster=${net}`;
+    return `https://explorer.solana.com/tx/${signature}${cluster}`;
+  }
+
+  async function connectSolanaWallet() {
+    const provider = getSolanaProvider();
+    if (!provider) {
+      toast(tr("Phantomなどのウォレット拡張機能が見つかりません。対応ブラウザ・拡張機能でお試しください。"), "error");
+      return;
+    }
+    try {
+      const resp = await provider.connect();
+      solanaWallet.address = (resp && resp.publicKey ? resp.publicKey : provider.publicKey).toString();
+      toast(tr("ウォレットを接続しました。"), "success");
+    } catch (err) {
+      if (err && err.code === 4001) toast(tr("接続がキャンセルされました。"), "error");
+      else toast(tr("ウォレットへの接続に失敗しました。"), "error");
+    }
+    renderShell();
+  }
+
+  function disconnectSolanaWallet() {
+    const provider = getSolanaProvider();
+    try { if (provider && typeof provider.disconnect === "function") provider.disconnect(); } catch {}
+    solanaWallet.address = null;
+    renderShell();
+  }
+
+  // すでにこのサイトを許可済みのPhantomなら、ダイアログを出さずに黙って再接続する
+  // ({ onlyIfTrusted: true }は、利用者の操作なしに呼んでも安全な承認済み専用のAPI)。
+  (function trySilentSolanaReconnect() {
+    const provider = getSolanaProvider();
+    if (!provider) return;
+    provider.connect({ onlyIfTrusted: true }).then((resp) => {
+      solanaWallet.address = (resp && resp.publicKey ? resp.publicKey : provider.publicKey).toString();
+      renderShell();
+    }).catch(() => { /* 未承認・未接続ならそのまま無視 */ });
+    if (typeof provider.on === "function") {
+      provider.on("accountChanged", (publicKey) => {
+        solanaWallet.address = publicKey ? publicKey.toString() : null;
+        renderShell();
+      });
+      provider.on("disconnect", () => {
+        solanaWallet.address = null;
+        renderShell();
+      });
+    }
+  })();
+
+  async function sendSolanaPayment({ toAddress, amountSol }) {
+    const provider = getSolanaProvider();
+    if (!provider || !solanaWallet.address) throw new Error(tr("ウォレットが接続されていません。"));
+    if (!hasSolanaWeb3Lib()) throw new Error(tr("ウォレット機能の読み込みに失敗しました。通信環境を確認して再読み込みしてください。"));
+    let toPubkey;
+    try {
+      toPubkey = new solanaWeb3.PublicKey(toAddress);
+    } catch {
+      throw new Error(tr("送金先のSolanaアドレスの形式が正しくありません。"));
+    }
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(solanaNetwork), "confirmed");
+    const transaction = new solanaWeb3.Transaction().add(
+      solanaWeb3.SystemProgram.transfer({
+        fromPubkey: provider.publicKey,
+        toPubkey,
+        lamports: Math.round(Number(amountSol) * solanaWeb3.LAMPORTS_PER_SOL),
+      })
+    );
+    const { blockhash } = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
+    transaction.feePayer = provider.publicKey;
+    const { signature } = await provider.signAndSendTransaction(transaction);
+    return { signature, connection };
+  }
+
   function getEscrowContract(signerOrProvider) {
-    if (!realSettings.escrowAddress || !hasEthersLib()) return null;
-    return new ethers.Contract(realSettings.escrowAddress, ESCROW_ABI, signerOrProvider);
+    const address = effectiveEscrowAddress();
+    if (!address || !hasEthersLib()) return null;
+    return new ethers.Contract(address, ESCROW_ABI, signerOrProvider);
   }
 
   async function sendEscrowFund({ workerAddress, amountEth }) {
@@ -2282,7 +2765,7 @@ contract JobChainEscrow {
     const compile = Module.cwrap("solidity_compile", "string", ["string", "number"]);
     const input = {
       language: "Solidity",
-      sources: { "JobChainEscrow.sol": { content: ESCROW_SOURCE_CODE } },
+      sources: { "NandemoyaEscrow.sol": { content: ESCROW_SOURCE_CODE } },
       settings: { outputSelection: { "*": { "*": ["abi", "evm.bytecode.object"] } } },
     };
     const outputRaw = compile(JSON.stringify(input), 0);
@@ -2293,7 +2776,7 @@ contract JobChainEscrow {
         throw new Error((LANG === "en" ? "Failed to compile the code: " : "コードの変換に失敗しました: ") + fatal.map((e) => e.message).join(" / "));
       }
     }
-    const contractOut = output.contracts["JobChainEscrow.sol"]["JobChainEscrow"];
+    const contractOut = output.contracts["NandemoyaEscrow.sol"]["NandemoyaEscrow"];
     if (!contractOut) throw new Error(tr("コードの変換結果が見つかりませんでした。"));
     return { abi: contractOut.abi, bytecode: "0x" + contractOut.evm.bytecode.object };
   }
@@ -2322,7 +2805,7 @@ contract JobChainEscrow {
     const hiredAcct = getAccount(job.hiredId);
     const records = job.onchainPayments || [];
     const escrow = job.escrow || null;
-    const hasEscrowSetting = !!realSettings.escrowAddress;
+    const hasEscrowSetting = !!effectiveEscrowAddress();
 
     let body;
     if (!hasInjectedWallet()) {
@@ -2337,7 +2820,7 @@ contract JobChainEscrow {
         ? `The hired applicant (${escapeHtml(hiredAcct.name)}) hasn't registered a real wallet address to receive payment yet. Please ask them via chat to register one on their dashboard.`
         : `採用者(${escapeHtml(hiredAcct.name)})はまだ受け取り用の実際のウォレットアドレスを登録していません。マイページでの登録をチャットで依頼してください。`}</p>`;
     } else {
-      const isMainnet = realWallet.chainId === "0x1";
+      const isMainnet = isMainnetNetwork(realWallet.chainId);
       body = `
         <div class="wallet-status-row" style="margin-bottom:8px;">
           <span style="font-size:12.5px; color:var(--text-dim);">${tr("送金元")}</span>
@@ -2351,12 +2834,19 @@ contract JobChainEscrow {
           </div>
         ` : ""}
         <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-          <button type="button" class="btn-accent btn-small" id="real-pay-send" ${escrow && escrow.funded && !escrow.released && !escrow.refunded ? "disabled" : ""}>${LANG === "en" ? `Send ${fmtEth(job.reward)} directly` : `${fmtEth(job.reward)} を直接送金する`}</button>
+          <button type="button" class="btn-accent btn-small" id="real-pay-send" ${escrow && escrow.funded && !escrow.released && !escrow.refunded ? "disabled" : ""}>${LANG === "en" ? `Send ${fmtNativeCurrency(job.reward, realWallet.chainId)} directly` : `${fmtNativeCurrency(job.reward, realWallet.chainId)} を直接送金する`}</button>
           ${realWallet.chainId !== SEPOLIA_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="real-pay-switch-sepolia">${tr("Sepoliaに切替")}</button>` : ""}
+          ${realWallet.chainId !== POLYGON_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="real-pay-switch-polygon">${tr("Polygonに切替")}</button>` : ""}
+          ${realWallet.chainId !== BSC_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="real-pay-switch-bsc">${tr("BNBスマートチェーンに切替")}</button>` : ""}
         </div>
         ${hasEscrowSetting ? `
           <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
-            <div style="font-size:11.5px; color:var(--text-dim); margin-bottom:4px;">${LANG === "en" ? `Deposit-then-release method (escrow address: ${escapeHtml(shortAddr(realSettings.escrowAddress))})` : `一旦預けてから渡す方法(預け先: ${escapeHtml(shortAddr(realSettings.escrowAddress))})`}</div>
+            <div style="font-size:11.5px; color:var(--text-dim); margin-bottom:4px;">${LANG === "en" ? `Deposit-then-release method (escrow address: ${escapeHtml(shortAddr(effectiveEscrowAddress()))}${isUsingDefaultEscrow() ? ", shared default" : ""})` : `一旦預けてから渡す方法(預け先: ${escapeHtml(shortAddr(effectiveEscrowAddress()))}${isUsingDefaultEscrow() ? "・共有の既定値" : ""})`}</div>
+            ${realWallet.chainId !== SEPOLIA_PARAMS.chainId && realWallet.chainId !== "0x1" ? `
+              <p style="font-size:11px; color:var(--text-dim); margin-bottom:8px; line-height:1.6;">${LANG === "en"
+                ? "Note: this escrow address was registered without recording which network it was deployed on. Before depositing, double-check it was actually deployed on the network you're connected to now — otherwise the transaction will simply fail (your funds stay safe either way)."
+                : "注意: この預け先アドレスは、どのネットワーク向けに作られたかの記録を持っていません。預ける前に、いま接続中のネットワーク向けに実際に作られたものかをご確認ください(違う場合は取引が失敗するだけで、資産が失われることはありません)。"}</p>
+            ` : ""}
             ${!escrow || (!escrow.funded) ? `
               <p style="font-size:11.5px; color:var(--text-dim); margin-bottom:8px; line-height:1.6;">${LANG === "en" ? `Instead of sending directly, you can deposit the funds first and later choose to "release" or "cancel" (only the job poster can decide — see <a href="#dashboard">your dashboard</a> for details).` : `直接送金の代わりに、まず預けておいて、あとから「渡す」か「やめる」かを選ぶこともできます(決められるのは投稿者だけ・詳しくは<a href="#dashboard">マイページ</a>)。`}</p>
               <button type="button" class="btn-ghost btn-small" id="escrow-fund-btn">${tr("預ける")}</button>
@@ -2387,7 +2877,7 @@ contract JobChainEscrow {
 
     return `
       <div class="card" style="margin-top:12px; border-color: color-mix(in srgb, var(--teal) 40%, var(--border));">
-        <div class="section-title">${tr("実際にETHを送金する")}</div>
+        <div class="section-title">${LANG === "en" ? `Send real ${networkInfo(realWallet.chainId).symbol}` : `実際に${networkInfo(realWallet.chainId).symbol}を送金する`}</div>
         ${body}
         ${historyHtml}
         <p style="font-size:11px; color:var(--text-dim); margin-top:10px; line-height:1.6;">${tr("この記録はあなたのブラウザにだけ保存され、他の人とは共有されません。相手には送金後に取引のリンクをチャットで伝えると確認しやすくなります。")}</p>
@@ -2403,6 +2893,12 @@ contract JobChainEscrow {
 
     const switchBtn = document.getElementById("real-pay-switch-sepolia");
     if (switchBtn) switchBtn.addEventListener("click", async () => { await switchToSepolia(); rerender(); });
+
+    const switchPolygonBtn = document.getElementById("real-pay-switch-polygon");
+    if (switchPolygonBtn) switchPolygonBtn.addEventListener("click", async () => { await switchToPolygon(); rerender(); });
+
+    const switchBscBtn = document.getElementById("real-pay-switch-bsc");
+    if (switchBscBtn) switchBscBtn.addEventListener("click", async () => { await switchToBsc(); rerender(); });
 
     const sendBtn = document.getElementById("real-pay-send");
     if (sendBtn) {
@@ -2427,7 +2923,7 @@ contract JobChainEscrow {
             rerender();
           }
         };
-        if (realWallet.chainId === "0x1") {
+        if (isMainnetNetwork(realWallet.chainId)) {
           askConfirm(tr("本番ネットワーク(Mainnet)で実際の資産を送金します。この操作は取り消せません。本当に実行しますか?"), doSend);
         } else {
           doSend();
@@ -2446,7 +2942,7 @@ contract JobChainEscrow {
             const receipt = await tx.wait();
             const onchainJobId = parseFundedJobId(receipt);
             job.escrow = {
-              contractAddress: realSettings.escrowAddress,
+              contractAddress: effectiveEscrowAddress(),
               chainId: realWallet.chainId,
               onchainJobId,
               fundTxHash: tx.hash,
@@ -2462,7 +2958,7 @@ contract JobChainEscrow {
             rerender();
           }
         };
-        if (realWallet.chainId === "0x1") {
+        if (isMainnetNetwork(realWallet.chainId)) {
           askConfirm(tr("本物のお金が動くネットワークに預けます。このやり方は第三者のチェックを受けていません。本当に実行しますか?"), doFund);
         } else {
           doFund();
@@ -2503,6 +2999,235 @@ contract JobChainEscrow {
             toast((err && err.message) || tr("処理に失敗しました。"), "error");
           }
         });
+      });
+    }
+  }
+
+  // 求人ページに表示する「実際にUSDC/USDTを送金する」カード。
+  // ETHの実送金カードとほぼ同じ作りだが、エスクロー(一旦預けてから渡す)は
+  // ERC-20トークンには対応していないため含まない(直接送金のみ)。
+  // 受け取り先アドレスはETHと共用の「実際のウォレットアドレス」欄を使う。
+  function stablecoinPaymentSectionHtml(job) {
+    const hiredAcct = getAccount(job.hiredId);
+    const records = job.onchainPayments || [];
+    const token = STABLECOIN_TOKENS[job.payMethod];
+    const symbol = token.symbol;
+
+    let body;
+    if (!hasInjectedWallet()) {
+      body = `<p style="font-size:12.5px; color:var(--text-dim);">${tr("MetaMaskなどのウォレット拡張機能が見つかりません。対応ブラウザ・拡張機能でお試しください。")}</p>`;
+    } else if (!realWallet.address) {
+      body = `
+        <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${tr("実際に送金するには、まず右上のアカウントメニューからウォレットを接続してください。")}</p>
+        <button type="button" class="btn-accent btn-small" id="stable-pay-connect">${tr("ウォレットを接続する")}</button>
+      `;
+    } else if (!hiredAcct.realWallet) {
+      body = `<p style="font-size:12.5px; color:var(--text-dim);">${LANG === "en"
+        ? `The hired applicant (${escapeHtml(hiredAcct.name)}) hasn't registered a real wallet address to receive payment yet. Please ask them via chat to register one on their dashboard.`
+        : `採用者(${escapeHtml(hiredAcct.name)})はまだ受け取り用の実際のウォレットアドレスを登録していません。マイページでの登録をチャットで依頼してください。`}</p>`;
+    } else if (!stablecoinContractAddress(job.payMethod, realWallet.chainId)) {
+      body = `<p style="font-size:12.5px; color:var(--text-dim);">${LANG === "en"
+        ? `${symbol} isn't available on the network your wallet is currently connected to (${networkInfo(realWallet.chainId).name}). ${symbol === "USDT" ? "USDT is only supported on Ethereum Mainnet in this app, since there's no official testnet version to rely on. " : ""}Please switch networks in your wallet.`
+        : `今つながっているネットワーク(${networkInfo(realWallet.chainId).name})では${symbol}に対応していません。${symbol === "USDT" ? "USDTは信頼できる公式テストネット版が無いため、このアプリではEthereumメインネットのみ対応しています。" : ""}ウォレット側でネットワークを切り替えてください。`}</p>
+        ${realWallet.chainId !== SEPOLIA_PARAMS.chainId && symbol === "USDC" ? `<button type="button" class="btn-ghost btn-small" id="stable-pay-switch-sepolia" style="margin-top:8px;">${tr("Sepoliaに切替")}</button>` : ""}
+      `;
+    } else {
+      const isMainnet = isMainnetNetwork(realWallet.chainId);
+      body = `
+        <div class="wallet-status-row" style="margin-bottom:8px;">
+          <span style="font-size:12.5px; color:var(--text-dim);">${tr("送金元")}</span>
+          <span class="addr-chip mono">${shortAddr(realWallet.address)}</span>
+          ${networkBadgeHtml(realWallet.chainId)}
+        </div>
+        <div style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${LANG === "en" ? `To (${escapeHtml(hiredAcct.name)})` : `送金先(${escapeHtml(hiredAcct.name)})`}: <span class="addr-chip mono">${shortAddr(hiredAcct.realWallet)}</span></div>
+        ${isMainnet ? `
+          <div class="risk-banner" style="margin-bottom:10px;">
+            <strong>${tr("本物のお金が動くネットワークにつながっています。")}</strong> ${tr("送金すると、あとから取り消せません。まずは練習用のネットワーク(Sepolia)で試すことを強くおすすめします。")}
+          </div>
+        ` : ""}
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button type="button" class="btn-accent btn-small" id="stable-pay-send">${LANG === "en" ? `Send ${fmtAmount(job.reward, job.payMethod)} directly` : `${fmtAmount(job.reward, job.payMethod)} を直接送金する`}</button>
+          ${realWallet.chainId !== SEPOLIA_PARAMS.chainId && symbol === "USDC" ? `<button type="button" class="btn-ghost btn-small" id="stable-pay-switch-sepolia">${tr("Sepoliaに切替")}</button>` : ""}
+        </div>
+      `;
+    }
+
+    const historyHtml = records.length ? `
+      <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+        <div style="font-size:11.5px; color:var(--text-dim); margin-bottom:6px;">${tr("送金履歴(このブラウザのみの記録)")}</div>
+        ${records.map((r) => `
+          <div class="onchain-tx-row">
+            ${networkBadgeHtml(r.chainId)}
+            <span class="pill ${r.status === "confirmed" ? "settled" : r.status === "failed" ? "unsettled" : ""}">${r.status === "confirmed" ? tr("確認済み") : r.status === "failed" ? tr("失敗") : tr("送信済み(承認待ち)")}</span>
+            ${txExplorerUrl(r.chainId, r.txHash) ? `<a href="${txExplorerUrl(r.chainId, r.txHash)}" target="_blank" rel="noopener" class="mono" style="font-size:11.5px;">${shortAddr(r.txHash)} ↗</a>` : `<span class="mono" style="font-size:11.5px;">${shortAddr(r.txHash)}</span>`}
+          </div>
+        `).join("")}
+      </div>
+    ` : "";
+
+    return `
+      <div class="card" style="margin-top:12px; border-color: color-mix(in srgb, var(--teal) 40%, var(--border));">
+        <div class="section-title">${LANG === "en" ? `Send ${symbol} directly` : `実際に${symbol}を送金する`}</div>
+        ${body}
+        ${historyHtml}
+        <p style="font-size:11px; color:var(--text-dim); margin-top:10px; line-height:1.6;">${tr("この記録はあなたのブラウザにだけ保存され、他の人とは共有されません。相手には送金後に取引のリンクをチャットで伝えると確認しやすくなります。")}</p>
+      </div>
+    `;
+  }
+
+  function wireStablecoinPaymentSection(job, rerender) {
+    const hiredAcct = getAccount(job.hiredId);
+
+    const connectBtn = document.getElementById("stable-pay-connect");
+    if (connectBtn) connectBtn.addEventListener("click", async () => { await connectRealWallet(); rerender(); });
+
+    const switchBtn = document.getElementById("stable-pay-switch-sepolia");
+    if (switchBtn) switchBtn.addEventListener("click", async () => { await switchToSepolia(); rerender(); });
+
+    const sendBtn = document.getElementById("stable-pay-send");
+    if (sendBtn) {
+      sendBtn.addEventListener("click", () => {
+        const doSend = async () => {
+          sendBtn.disabled = true;
+          try {
+            const tx = await sendStablecoinPayment({ payMethod: job.payMethod, toAddress: hiredAcct.realWallet, amount: job.reward });
+            job.onchainPayments = job.onchainPayments || [];
+            const record = { txHash: tx.hash, chainId: realWallet.chainId, status: "pending", sentAt: Date.now() };
+            job.onchainPayments.push(record);
+            saveLocalTxForJob(job);
+            toast(tr("送金の手続きを送信しました。承認をお待ちください。"), "success");
+            rerender();
+            tx.wait().then((receipt) => {
+              record.status = receipt && receipt.status === 1 ? "confirmed" : "failed";
+              saveLocalTxForJob(job);
+              rerender();
+            }).catch(() => { record.status = "failed"; saveLocalTxForJob(job); rerender(); });
+          } catch (err) {
+            toast((err && err.message) || tr("送金に失敗しました。"), "error");
+            rerender();
+          }
+        };
+        if (isMainnetNetwork(realWallet.chainId)) {
+          askConfirm(tr("本番ネットワーク(Mainnet)で実際の資産を送金します。この操作は取り消せません。本当に実行しますか?"), doSend);
+        } else {
+          doSend();
+        }
+      });
+    }
+  }
+
+  // 求人ページに表示する「実際にSOLを送金する」カード。ETH/USDC/USDTとは
+  // 別のウォレット(Phantom)・別のライブラリ(solana/web3.js)を使うため、
+  // realPaymentSectionHtml/stablecoinPaymentSectionHtmlとは完全に独立させてある。
+  function solanaPaymentSectionHtml(job) {
+    const hiredAcct = getAccount(job.hiredId);
+    const records = (job.onchainPayments || []).filter((r) => r.chain === "solana");
+
+    let body;
+    if (!hasSolanaWallet()) {
+      body = `<p style="font-size:12.5px; color:var(--text-dim);">${tr("Phantomなどのウォレット拡張機能が見つかりません。対応ブラウザ・拡張機能でお試しください。")}</p>`;
+    } else if (!solanaWallet.address) {
+      body = `
+        <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${tr("実際に送金するには、まずウォレットを接続してください。")}</p>
+        <button type="button" class="btn-accent btn-small" id="solana-pay-connect">${tr("ウォレットを接続する")}</button>
+      `;
+    } else if (!hiredAcct.solanaAddress) {
+      body = `<p style="font-size:12.5px; color:var(--text-dim);">${LANG === "en"
+        ? `The hired applicant (${escapeHtml(hiredAcct.name)}) hasn't registered a Solana address to receive payment yet. Please ask them via chat to register one on their dashboard.`
+        : `採用者(${escapeHtml(hiredAcct.name)})はまだ受け取り用のSolanaアドレスを登録していません。マイページでの登録をチャットで依頼してください。`}</p>`;
+    } else {
+      const isMainnet = isSolanaMainnet();
+      body = `
+        <div class="wallet-status-row" style="margin-bottom:8px;">
+          <span style="font-size:12.5px; color:var(--text-dim);">${tr("送金元")}</span>
+          <span class="addr-chip mono">${shortAddr(solanaWallet.address)}</span>
+        </div>
+        <div style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${LANG === "en" ? `To (${escapeHtml(hiredAcct.name)})` : `送金先(${escapeHtml(hiredAcct.name)})`}: <span class="addr-chip mono">${shortAddr(hiredAcct.solanaAddress)}</span></div>
+        <div class="field" style="margin-bottom:10px; max-width:260px;">
+          <label for="solana-pay-network">${tr("送金に使うネットワーク")}</label>
+          <select id="solana-pay-network">
+            <option value="devnet" ${solanaNetwork === "devnet" ? "selected" : ""}>${tr("Solana Devnet(テストネット)")}</option>
+            <option value="mainnet-beta" ${solanaNetwork === "mainnet-beta" ? "selected" : ""}>${tr("Solanaメインネット(本番)")}</option>
+          </select>
+          <div style="font-size:11px; color:var(--text-dim); margin-top:4px; line-height:1.5;">${tr("Solanaには、アプリ側からウォレットのネットワークを自動で切り替える仕組みがありません。ここで選んだ内容と、お使いのPhantomウォレット自体の設定(設定→開発者設定→ネットワークを変更)が一致しているか、送金前にご確認ください(違う場合は送金が失敗するだけで、資産が失われることはありません)。")}</div>
+        </div>
+        ${isMainnet ? `
+          <div class="risk-banner" style="margin-bottom:10px;">
+            <strong>${tr("本物のお金が動くネットワークにつながっています。")}</strong> ${tr("送金すると、あとから取り消せません。まずは練習用のネットワーク(Devnet)で試すことを強くおすすめします。")}
+          </div>
+        ` : ""}
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button type="button" class="btn-accent btn-small" id="solana-pay-send">${LANG === "en" ? `Send ${fmtAmount(job.reward, "sol")} directly` : `${fmtAmount(job.reward, "sol")} を直接送金する`}</button>
+        </div>
+      `;
+    }
+
+    const historyHtml = records.length ? `
+      <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+        <div style="font-size:11.5px; color:var(--text-dim); margin-bottom:6px;">${tr("送金履歴(このブラウザのみの記録)")}</div>
+        ${records.map((r) => `
+          <div class="onchain-tx-row">
+            <span class="network-badge ${r.network === "mainnet-beta" ? "net-main" : "net-test"}">${escapeHtml(solanaNetworkLabel(r.network))}</span>
+            <span class="pill ${r.status === "confirmed" ? "settled" : r.status === "failed" ? "unsettled" : ""}">${r.status === "confirmed" ? tr("確認済み") : r.status === "failed" ? tr("失敗") : tr("送信済み(承認待ち)")}</span>
+            <a href="${solanaExplorerUrl(r.txHash, r.network)}" target="_blank" rel="noopener" class="mono" style="font-size:11.5px;">${shortAddr(r.txHash)} ↗</a>
+          </div>
+        `).join("")}
+      </div>
+    ` : "";
+
+    return `
+      <div class="card" style="margin-top:12px; border-color: color-mix(in srgb, var(--teal) 40%, var(--border));">
+        <div class="section-title">${LANG === "en" ? "Send real SOL" : "実際にSOLを送金する"}</div>
+        ${body}
+        ${historyHtml}
+        <p style="font-size:11px; color:var(--text-dim); margin-top:10px; line-height:1.6;">${tr("この記録はあなたのブラウザにだけ保存され、他の人とは共有されません。相手には送金後に取引のリンクをチャットで伝えると確認しやすくなります。")}</p>
+      </div>
+    `;
+  }
+
+  function wireSolanaPaymentSection(job, rerender) {
+    const hiredAcct = getAccount(job.hiredId);
+
+    const connectBtn = document.getElementById("solana-pay-connect");
+    if (connectBtn) connectBtn.addEventListener("click", async () => { await connectSolanaWallet(); rerender(); });
+
+    const networkSelect = document.getElementById("solana-pay-network");
+    if (networkSelect) {
+      networkSelect.addEventListener("change", () => {
+        solanaNetwork = networkSelect.value === "mainnet-beta" ? "mainnet-beta" : "devnet";
+        rerender();
+      });
+    }
+
+    const sendBtn = document.getElementById("solana-pay-send");
+    if (sendBtn) {
+      sendBtn.addEventListener("click", () => {
+        const doSend = async () => {
+          sendBtn.disabled = true;
+          try {
+            const { signature } = await sendSolanaPayment({ toAddress: hiredAcct.solanaAddress, amountSol: job.reward });
+            job.onchainPayments = job.onchainPayments || [];
+            const record = { chain: "solana", network: solanaNetwork, txHash: signature, status: "pending", sentAt: Date.now() };
+            job.onchainPayments.push(record);
+            saveLocalTxForJob(job);
+            toast(tr("送金の手続きを送信しました。承認をお待ちください。"), "success");
+            rerender();
+            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(solanaNetwork), "confirmed");
+            connection.confirmTransaction(signature, "confirmed").then((result) => {
+              record.status = result && result.value && result.value.err ? "failed" : "confirmed";
+              saveLocalTxForJob(job);
+              rerender();
+            }).catch(() => { record.status = "failed"; saveLocalTxForJob(job); rerender(); });
+          } catch (err) {
+            toast((err && err.message) || tr("送金に失敗しました。"), "error");
+            rerender();
+          }
+        };
+        if (isSolanaMainnet()) {
+          askConfirm(tr("本番ネットワーク(Mainnet)で実際の資産を送金します。この操作は取り消せません。本当に実行しますか?"), doSend);
+        } else {
+          doSend();
+        }
       });
     }
   }
@@ -2572,6 +3297,8 @@ contract JobChainEscrow {
           </div>
           <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
             ${realWallet.chainId !== SEPOLIA_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="wallet-switch-sepolia">${tr("Sepoliaに切替")}</button>` : ""}
+            ${realWallet.chainId !== POLYGON_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="wallet-switch-polygon">${tr("Polygonに切替")}</button>` : ""}
+            ${realWallet.chainId !== BSC_PARAMS.chainId ? `<button type="button" class="btn-ghost btn-small" id="wallet-switch-bsc">${tr("BNBスマートチェーンに切替")}</button>` : ""}
             <button type="button" class="btn-ghost btn-small" id="wallet-disconnect">${tr("切る")}</button>
           </div>
         ` : `
@@ -2579,6 +3306,23 @@ contract JobChainEscrow {
         `}
         <div style="font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.5;">
           ${tr("下のアカウント一覧とは別物です。実際のETHを送るときだけ使います。はじめは「Sepolia」という、本物のお金を使わない練習用のネットワークがおすすめです。")}
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border); margin:10px 0;"></div>
+      <div class="wallet-section">
+        <div class="hint-line" style="border:none; padding-bottom:6px;">${tr("実際のSolanaウォレット(任意)")}</div>
+        ${solanaWallet.address ? `
+          <div class="wallet-status-row">
+            <span class="addr-chip mono">${shortAddr(solanaWallet.address)}</span>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
+            <button type="button" class="btn-ghost btn-small" id="solana-wallet-disconnect">${tr("切る")}</button>
+          </div>
+        ` : `
+          <button type="button" class="btn-accent btn-small" id="solana-wallet-connect" style="width:100%;">${tr("ウォレットをつなぐ(Phantomなど)")}</button>
+        `}
+        <div style="font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.5;">
+          ${tr("上のETH用ウォレットとは別物です。実際のSOLを送るときだけ使います。")}
         </div>
       </div>
       <div style="border-top:1px solid var(--border); margin:10px 0;"></div>
@@ -2613,6 +3357,34 @@ contract JobChainEscrow {
     if (walletSwitchBtn) {
       walletSwitchBtn.addEventListener("click", async () => {
         await switchToSepolia();
+        renderAccountPanel();
+      });
+    }
+    const walletSwitchPolygonBtn = document.getElementById("wallet-switch-polygon");
+    if (walletSwitchPolygonBtn) {
+      walletSwitchPolygonBtn.addEventListener("click", async () => {
+        await switchToPolygon();
+        renderAccountPanel();
+      });
+    }
+    const walletSwitchBscBtn = document.getElementById("wallet-switch-bsc");
+    if (walletSwitchBscBtn) {
+      walletSwitchBscBtn.addEventListener("click", async () => {
+        await switchToBsc();
+        renderAccountPanel();
+      });
+    }
+    const solanaWalletConnectBtn = document.getElementById("solana-wallet-connect");
+    if (solanaWalletConnectBtn) {
+      solanaWalletConnectBtn.addEventListener("click", async () => {
+        await connectSolanaWallet();
+        renderAccountPanel();
+      });
+    }
+    const solanaWalletDisconnectBtn = document.getElementById("solana-wallet-disconnect");
+    if (solanaWalletDisconnectBtn) {
+      solanaWalletDisconnectBtn.addEventListener("click", () => {
+        disconnectSolanaWallet();
         renderAccountPanel();
       });
     }
@@ -2717,7 +3489,7 @@ contract JobChainEscrow {
             <span class="meta-item"><span class="meta-label">${tr("勤務地")}</span>${escapeHtml(job.location) || "-"}</span>
             ${job.workDate ? `<span class="meta-item"><span class="meta-label">${tr("勤務日時")}</span>${fmtWorkDatetime(job.workDate)}</span>` : ""}
             <span class="meta-item"><span class="meta-label">${tr("報酬")}</span><span class="mono">${fmtAmount(job.reward, job.payMethod)}</span></span>
-            <span class="meta-item"><span class="meta-label">${tr("投稿元")}</span>${escapeHtml(employer.name)}</span>
+            <span class="meta-item"><span class="meta-label">${tr("投稿元")}</span>${escapeHtml(employer.name)}${ratingBadgeHtml(employer.id)}</span>
           </div>
         </div>
       </a>
@@ -2755,7 +3527,12 @@ contract JobChainEscrow {
               <select id="search-method">
                 <option value="">${tr("すべて")}</option>
                 <option value="eth" ${initialMethod === "eth" ? "selected" : ""}>ETH</option>
+                <option value="usdc" ${initialMethod === "usdc" ? "selected" : ""}>USDC</option>
+                <option value="usdt" ${initialMethod === "usdt" ? "selected" : ""}>USDT</option>
+                <option value="sol" ${initialMethod === "sol" ? "selected" : ""}>Solana (SOL)</option>
                 <option value="xmr" ${initialMethod === "xmr" ? "selected" : ""}>Monero (XMR)</option>
+                <option value="btc" ${initialMethod === "btc" ? "selected" : ""}>Bitcoin (BTC)</option>
+                <option value="card" ${initialMethod === "card" ? "selected" : ""}>${tr("カード / Apple Pay")}</option>
                 <option value="cash" ${initialMethod === "cash" ? "selected" : ""}>${tr("手渡し(現金)")}</option>
                 <option value="other" ${initialMethod === "other" ? "selected" : ""}>${tr("その他")}</option>
               </select>
@@ -3052,7 +3829,12 @@ contract JobChainEscrow {
   function payMethodNotes() {
     return {
       eth: tr("投稿時に指定した報酬は、まず見本の残高上で預けたことになります(体験用の見本です)。応募は誰でも無料でできます。採用後は、求人ページからウォレットをつないで本物のETHを送ることもできます。"),
+      usdc: tr("<strong>USDC</strong> は米ドルと価値が連動するよう設計された「ステーブルコイン」です。ETHと違い、報酬の価値が暗号資産相場の変動で目減りしにくいのが特徴です。ETHのような見本残高の仕組みは無く、採用後に求人ページからウォレットをつないで、実際のUSDCを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません)。"),
+      usdt: tr("<strong>USDT</strong> はUSDCと同じく米ドル連動の「ステーブルコイン」です。ETHのような見本残高の仕組みは無く、採用後に求人ページからウォレットをつないで、実際のUSDTを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません。信頼できる公式テストネット版が無いため、本番ネットワークのみの対応です)。"),
+      sol: tr("<strong>Solana (SOL)</strong> はEthereum系(ETH/Polygon/BNBスマートチェーン)とは別系統の、処理速度の速さと手数料の安さで知られる暗号資産です。ETHのような見本残高の仕組みは無く、採用後に求人ページからPhantomなどのウォレットをつないで、実際のSOLを採用者のウォレットアドレス宛てに直接送金します(エスクロー(預けてから渡す)機能は今のところ対応していません)。"),
       xmr: tr("<strong>Monero (XMR)</strong> は送信者・受信者・金額を秘匿する匿名性の高い暗号資産です(次世代のプライバシー技術「FCMP++」により匿名集合が大幅に拡大される予定)。このアプリ自体は送金を行いません(Moneroの秘密鍵を扱わない設計です)が、支払いのタイミングで宛先・金額を埋め込んだ「支払いリンク(monero:リンク)」を自動生成するので、それをお互いのMoneroウォレットで開いて送金してください。"),
+      btc: tr("<strong>Bitcoin (BTC)</strong> はブロックチェーン上で取引が公開される暗号資産で、Moneroのような秘匿性はありません(個人情報とひも付けなければ匿名性はありますが、取引自体は誰でも追跡できます)。このアプリ自体は送金を行わず(ブラウザに差し込める共通のウォレットの仕組みがBitcoinには無いため)、支払いのタイミングで宛先・金額を埋め込んだ「支払いリンク(bitcoin:リンク)」を自動生成するので、それをお互いのBitcoinウォレットで開いて送金してください。"),
+      card: tr("<strong>デビット/クレジットカード・Apple Pay</strong>は、採用された人自身のStripeアカウントで発行した「決済リンク」を使って支払う方法です。報酬額は暗号資産ではなく日本円(JPY)で指定します。このアプリはカード番号などの決済情報を一切保存・送信しません(非カストディアル)。採用された人は無料のStripeアカウントを作成し、報酬額に合わせた決済リンクをマイページに登録してください。支払いはStripeを経由して、採用された人自身の銀行口座に入金されます。"),
       cash: tr("<strong>手渡し(現金)</strong>はアプリを一切介さない、最も匿名性の高い支払い方法です。採用後にチャットで日時・場所を相談し、対面で直接お支払いください。"),
       other: tr("銀行振込・PayPay・ギフト券など、上記以外の方法で直接やり取りしたい場合に選んでください。このアプリは支払いそのものは行わず、記録するだけです。方法によっては相手に氏名や口座情報を伝える必要があり、匿名性は方法ごとに異なります。実際の受け渡し方法・タイミングは、採用後にチャットで直接相談してください。"),
     };
@@ -3063,7 +3845,7 @@ contract JobChainEscrow {
     root.innerHTML = `
       <div class="page-head">
         <h1>${tr("求人を投稿する")}</h1>
-        <div class="sub">${tr("ログイン不要・匿名のまま投稿できます。支払い方法はETH・Monero・手渡し・その他から選べます。")}</div>
+        <div class="sub">${tr("ログイン不要・匿名のまま投稿できます。支払い方法はETH・USDC・USDT・Solana・Monero・Bitcoin・カード/Apple Pay・手渡し・その他から選べます。")}</div>
       </div>
       <form id="post-form" class="card stack">
         <div class="field">
@@ -3095,7 +3877,12 @@ contract JobChainEscrow {
           <label for="f-method">${tr("支払い方法")}</label>
           <select id="f-method">
             <option value="eth">${tr("ETH(投稿時に見本残高から預ける)")}</option>
+            <option value="usdc">${tr("USDC(実際にウォレットから直接送金)")}</option>
+            <option value="usdt">${tr("USDT(実際にウォレットから直接送金)")}</option>
+            <option value="sol">${tr("Solana / SOL(実際にウォレットから直接送金)")}</option>
             <option value="xmr">${tr("Monero / XMR(匿名決済)")}</option>
+            <option value="btc">${tr("Bitcoin / BTC")}</option>
+            <option value="card">${tr("カード / Apple Pay(Stripe決済リンク経由)")}</option>
             <option value="cash">${tr("手渡し / 現金(匿名・対面)")}</option>
             <option value="other">${tr("その他(銀行振込・PayPayなど)")}</option>
           </select>
@@ -3114,6 +3901,11 @@ contract JobChainEscrow {
           <input id="f-monero" value="${escapeHtml(me().moneroAddress || "")}" placeholder="${tr("4で始まる95文字のMoneroアドレス")}" />
           <div style="font-size:12px; color:var(--text-dim); margin-top:6px;">${me().moneroAddress ? tr("マイページに保存したアドレスを自動入力しました。") : tr("マイページでアドレスを登録しておくと、次回から自動入力されます。")}</div>
         </div>
+        <div class="field" id="bitcoin-field" hidden>
+          <label for="f-bitcoin">${tr("受け取り用Bitcoinアドレス(任意・後からチャットで伝えることも可能)")}</label>
+          <input id="f-bitcoin" value="${escapeHtml(me().bitcoinAddress || "")}" placeholder="${tr("1/3/bc1のいずれかで始まるBitcoinアドレス")}" />
+          <div style="font-size:12px; color:var(--text-dim); margin-top:6px;">${me().bitcoinAddress ? tr("マイページに保存したアドレスを自動入力しました。") : tr("マイページでアドレスを登録しておくと、次回から自動入力されます。")}</div>
+        </div>
         <div id="post-escrow-card" hidden style="border-top:1px solid var(--border); padding-top:16px;">
           <div class="section-title" style="font-size:14px;">${tr("お金を一旦預けてから渡す機能(任意)")}</div>
           <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:14px;">${tr("ここは空欄のままで大丈夫です。空欄のまま投稿しても、あとで採用してから「実際にETHを送金する」で普通に送金できます。先に預けておいて、あとで「渡す」か「やめる」かを選べる、もう一歩ていねいなやり方を使いたい場合だけ、ここで設定してください(あとでマイページから設定・変更することもできます)。")}</p>
@@ -3129,6 +3921,7 @@ contract JobChainEscrow {
     const rewardLabel = document.getElementById("f-reward-label");
     const rewardInput = document.getElementById("f-reward");
     const moneroField = document.getElementById("monero-field");
+    const bitcoinField = document.getElementById("bitcoin-field");
     const otherField = document.getElementById("other-method-field");
     const escrowCard = document.getElementById("post-escrow-card");
     const submitBtn = document.getElementById("post-submit-btn");
@@ -3139,13 +3932,23 @@ contract JobChainEscrow {
       const info = payInfo(method);
       rewardLabel.textContent = LANG === "en" ? `Reward (${info.unit})` : `採用報酬 (${info.unit})`;
       moneroField.hidden = method !== "xmr";
+      bitcoinField.hidden = method !== "btc";
       otherField.hidden = method !== "other";
       escrowCard.hidden = method !== "eth";
       noteEl.innerHTML = payMethodNotes()[method];
       submitBtn.textContent = method === "eth" ? tr("求人を投稿して預ける") : tr("求人を投稿する");
-      if (method === "cash" || method === "other") {
+      if (method === "cash" || method === "other" || method === "card") {
+        // card(Stripe決済リンク)もcash/otherと同じ日本円表示。Stripeの決済リンクは
+        // JPYだと小数点以下(銭単位)を扱えず、常に整数の円単位になるため、
+        // 暗号資産(ETH/BTC/SOLなど)のような細かい刻みではなくcash/otherと同じ
+        // 「100円刻み」で扱う。
         rewardInput.step = "100";
         rewardInput.value = rewardInput.value <= 10 ? 15000 : rewardInput.value;
+      } else if (method === "btc" || method === "sol") {
+        // BTCはETH・Moneroよりずっと高単価、SOLは逆に1枚あたりの価値が小さく
+        // 細かい量を送りたくなりやすいため、どちらも0.001のような細かい値を
+        // そのまま入力できるよう、きざみ幅を細かくしておく。
+        rewardInput.step = "0.0001";
       } else {
         rewardInput.step = "0.01";
       }
@@ -3201,6 +4004,7 @@ contract JobChainEscrow {
           payMethod: methodSelect.value,
           reward: Number(rewardInput.value || 0),
           moneroAddress: document.getElementById("f-monero").value.trim(),
+          bitcoinAddress: document.getElementById("f-bitcoin").value.trim(),
           otherMethodLabel,
           image: selectedImageDataUrl,
         });
@@ -3296,10 +4100,27 @@ contract JobChainEscrow {
           <span class="meta-item"><span class="meta-label">${tr("投稿日")}</span>${fmtDate(job.createdAt)}</span>
         </div>
         <p style="white-space:pre-wrap; line-height:1.75; font-size:14.5px;">${escapeHtml(job.description) || tr("(詳細説明なし)")}</p>
-        ${job.payMethod === "xmr" ? `
+        ${job.payMethod === "usdc" || job.payMethod === "usdt" ? `
+          <div class="payment-note" style="margin-top:12px;">
+            <strong>${job.payMethod === "usdc" ? tr("USDC決済:") : tr("USDT決済:")}</strong> ${payMethodNotes()[job.payMethod]}
+          </div>
+        ` : job.payMethod === "sol" ? `
+          <div class="payment-note" style="margin-top:12px;">
+            <strong>${tr("Solana決済:")}</strong> ${payMethodNotes().sol}
+          </div>
+        ` : job.payMethod === "xmr" ? `
           <div class="payment-note" style="margin-top:12px;">
             <strong>${tr("Monero決済(匿名):")}</strong> ${payMethodNotes().xmr}
             ${job.moneroAddress ? `<div class="xmr-address" style="margin-top:8px;">${escapeHtml(job.moneroAddress)}</div>` : `<div style="margin-top:8px;">${tr("受け取りアドレスは採用後にチャットで共有されます。")}</div>`}
+          </div>
+        ` : job.payMethod === "btc" ? `
+          <div class="payment-note" style="margin-top:12px;">
+            <strong>${tr("Bitcoin決済:")}</strong> ${payMethodNotes().btc}
+            ${job.bitcoinAddress ? `<div class="xmr-address" style="margin-top:8px;">${escapeHtml(job.bitcoinAddress)}</div>` : `<div style="margin-top:8px;">${tr("受け取りアドレスは採用後にチャットで共有されます。")}</div>`}
+          </div>
+        ` : job.payMethod === "card" ? `
+          <div class="payment-note" style="margin-top:12px;">
+            <strong>${tr("カード決済:")}</strong> ${payMethodNotes().card}
           </div>
         ` : job.payMethod === "cash" ? `
           <div class="payment-note" style="margin-top:12px;"><strong>${tr("手渡し決済(匿名):")}</strong> ${payMethodNotes().cash}</div>
@@ -3307,12 +4128,13 @@ contract JobChainEscrow {
           <div class="payment-note" style="margin-top:12px;"><strong>${LANG === "en" ? `Other payment method${job.otherMethodLabel ? ` (${escapeHtml(job.otherMethodLabel)})` : ""}:` : `その他の支払い方法${job.otherMethodLabel ? `(${escapeHtml(job.otherMethodLabel)})` : ""}:`}</strong> ${payMethodNotes().other}</div>
         ` : ""}
         <div style="margin-top:12px; font-size:12.5px; color:var(--text-dim);">
-          ${tr("投稿者")}: ${escapeHtml(employer.name)} <span class="addr-chip">${shortAddr(employer.address)}</span>
+          ${tr("投稿者")}: ${escapeHtml(employer.name)} <span class="addr-chip">${shortAddr(employer.address)}</span>${ratingBadgeHtml(employer.id)}
         </div>
-        ${job.hiredId ? `<div style="margin-top:8px; font-size:13px; color:var(--teal);">${tr("採用者")}: ${escapeHtml(getAccount(job.hiredId).name)}</div>` : ""}
+        ${job.hiredId ? `<div style="margin-top:8px; font-size:13px; color:var(--teal);">${tr("採用者")}: ${escapeHtml(getAccount(job.hiredId).name)}${ratingBadgeHtml(job.hiredId)}</div>` : ""}
       </div>
       <div id="actions" style="margin-bottom:18px;"></div>
       <div id="chat-container"></div>
+      <div id="review-section"></div>
     `;
 
     const actionsEl = document.getElementById("actions");
@@ -3320,6 +4142,8 @@ contract JobChainEscrow {
 
     if (iAmEmployer) {
       const isEth = job.payMethod === "eth";
+      const isStable = isStablecoinMethod(job.payMethod);
+      const isSolana = isSolanaMethod(job.payMethod);
       actionsEl.innerHTML = `
         <div class="card">
           <div class="section-title">${LANG === "en" ? `Applicants (${job.applicants.length})` : `応募者一覧 (${job.applicants.length}名)`}</div>
@@ -3345,29 +4169,53 @@ contract JobChainEscrow {
           ${job.isOpen ? `<div style="margin-top:16px;"><button class="btn-danger btn-small" id="close-btn">${tr("応募を締め切る(未採用の場合、報酬は返金されます)")}</button></div>` : ""}
         </div>
         ${(() => {
-          if (!job.hiredId || isEth || job.settled || job.payMethod !== "xmr") return "";
+          if (!job.hiredId || isEth || job.settled || (job.payMethod !== "xmr" && job.payMethod !== "btc" && job.payMethod !== "card")) return "";
           const hiredAcct = getAccount(job.hiredId);
-          if (!hiredAcct.moneroAddress) {
+          const isXmr = job.payMethod === "xmr";
+          const isCard = job.payMethod === "card";
+          const theirAddress = isCard ? hiredAcct.stripeLink : (isXmr ? hiredAcct.moneroAddress : hiredAcct.bitcoinAddress);
+          if (!theirAddress) {
             return `<div class="card" style="margin-top:12px;"><p style="font-size:13px; color:var(--text-dim);">${LANG === "en"
-              ? `The hired applicant (${escapeHtml(hiredAcct.name)}) hasn't registered a Monero address yet. Please check with them via chat.`
-              : `採用者(${escapeHtml(hiredAcct.name)})はまだMoneroアドレスを登録していません。チャットで確認してください。`}</p></div>`;
+              ? `The hired applicant (${escapeHtml(hiredAcct.name)}) hasn't registered a ${isCard ? "Stripe payment link" : isXmr ? "Monero" : "Bitcoin"} ${isCard ? "" : "address "}yet. Please check with them via chat.`
+              : `採用者(${escapeHtml(hiredAcct.name)})はまだ${isCard ? "決済リンクを登録していません" : `${isXmr ? "Monero" : "Bitcoin"}アドレスを登録していません`}。チャットで確認してください。`}</p></div>`;
           }
-          const uri = buildMoneroUri({
-            address: hiredAcct.moneroAddress,
-            amount: job.reward,
-            description: LANG === "en" ? `Reward: ${job.title}` : `報酬: ${job.title}`,
-          });
+          if (isCard) {
+            return stripeLinkCardHtml({
+              idPrefix: "reward-pay",
+              heading: LANG === "en" ? `Reward payment link (${fmtAmount(job.reward, job.payMethod)})` : `報酬の支払いリンク(${fmtAmount(job.reward, job.payMethod)})`,
+              url: theirAddress,
+              note: LANG === "en" ? `This is the Stripe payment link the hired applicant (${escapeHtml(hiredAcct.name)}) registered on their dashboard for this reward amount.` : `採用者(${escapeHtml(hiredAcct.name)})がマイページに登録した、この報酬額用のStripe決済リンクです。`,
+            });
+          }
+          const uri = isXmr
+            ? buildMoneroUri({
+                address: theirAddress,
+                amount: job.reward,
+                description: LANG === "en" ? `Reward: ${job.title}` : `報酬: ${job.title}`,
+              })
+            : buildBitcoinUri({
+                address: theirAddress,
+                amount: job.reward,
+                description: LANG === "en" ? `Reward: ${job.title}` : `報酬: ${job.title}`,
+              });
           return paymentLinkCardHtml({
             idPrefix: "reward-pay",
-            heading: LANG === "en" ? `Reward payment link (${fmtAmount(job.reward, "xmr")})` : `報酬の支払いリンク(${fmtAmount(job.reward, "xmr")})`,
+            heading: LANG === "en" ? `Reward payment link (${fmtAmount(job.reward, job.payMethod)})` : `報酬の支払いリンク(${fmtAmount(job.reward, job.payMethod)})`,
             uri,
             note: LANG === "en" ? `Sent to the address the hired applicant (${escapeHtml(hiredAcct.name)}) registered on their dashboard.` : `採用者(${escapeHtml(hiredAcct.name)})がマイページに登録したアドレス宛てです。`,
+            walletNote: isXmr
+              ? tr("「ウォレットで開く」はMonero対応ウォレット(Cake Walletなど)がお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。")
+              : tr("「ウォレットで開く」はBitcoin対応ウォレットがお使いの端末にインストールされていないと反応しません。基本的には「リンクをコピー」してウォレットアプリ側に貼り付けてください。"),
           });
         })()}
         ${isEth && job.hiredId ? realPaymentSectionHtml(job) : ""}
+        ${isStable && job.hiredId ? stablecoinPaymentSectionHtml(job) : ""}
+        ${isSolana && job.hiredId ? solanaPaymentSectionHtml(job) : ""}
       `;
       if (document.getElementById("reward-pay-copy")) wireCopyButton("reward-pay-copy", "reward-pay-uri");
       if (isEth && job.hiredId) wireRealPaymentSection(job, () => viewJob(jobId));
+      if (isStable && job.hiredId) wireStablecoinPaymentSection(job, () => viewJob(jobId));
+      if (isSolana && job.hiredId) wireSolanaPaymentSection(job, () => viewJob(jobId));
 
       actionsEl.querySelectorAll(".hire-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -3375,9 +4223,9 @@ contract JobChainEscrow {
           const msg = LANG === "en"
             ? (isEth
               ? `Hire ${btn.dataset.name}? The reward of ${rewardText} will become withdrawable.`
-              : `Hire ${btn.dataset.name}? Please pay the reward of ${rewardText} directly${job.payMethod === "xmr" ? " via Monero" : job.payMethod === "cash" ? " in cash, in person" : job.payMethod === "other" ? (job.otherMethodLabel ? ` via ${job.otherMethodLabel}` : "") : ""}.`)
+              : `Hire ${btn.dataset.name}? Please pay the reward of ${rewardText} directly${job.payMethod === "usdc" ? " via USDC" : job.payMethod === "usdt" ? " via USDT" : job.payMethod === "sol" ? " via Solana" : job.payMethod === "xmr" ? " via Monero" : job.payMethod === "btc" ? " via Bitcoin" : job.payMethod === "card" ? " via card/Apple Pay" : job.payMethod === "cash" ? " in cash, in person" : job.payMethod === "other" ? (job.otherMethodLabel ? ` via ${job.otherMethodLabel}` : "") : ""}.`)
             : (() => {
-              const directPayLabel = job.payMethod === "xmr" ? "Moneroで" : job.payMethod === "cash" ? "手渡しで" : job.payMethod === "other" ? (job.otherMethodLabel ? `${job.otherMethodLabel}で` : "") : "";
+              const directPayLabel = job.payMethod === "usdc" ? "USDCで" : job.payMethod === "usdt" ? "USDTで" : job.payMethod === "sol" ? "Solanaで" : job.payMethod === "xmr" ? "Moneroで" : job.payMethod === "btc" ? "Bitcoinで" : job.payMethod === "card" ? "カード/Apple Payで" : job.payMethod === "cash" ? "手渡しで" : job.payMethod === "other" ? (job.otherMethodLabel ? `${job.otherMethodLabel}で` : "") : "";
               return isEth
                 ? `${btn.dataset.name} を採用しますか?報酬 ${rewardText} が引き出し可能になります。`
                 : `${btn.dataset.name} を採用しますか?報酬 ${rewardText} は${directPayLabel}直接お支払いください。`;
@@ -3430,20 +4278,39 @@ contract JobChainEscrow {
       const applied = job.applicants.some((a) => a.accountId === acct.id);
       if (applied && job.hiredId === acct.id) {
         const isEth = job.payMethod === "eth";
+        const isStable = isStablecoinMethod(job.payMethod);
+        const isSolana = isSolanaMethod(job.payMethod);
+        const isCard = job.payMethod === "card";
         const rewardText = fmtAmount(job.reward, job.payMethod);
         const howToGetPaid = LANG === "en"
           ? (isEth
             ? `The reward <span class="mono">${rewardText}</span> has already been added to your withdrawable demo balance (withdraw it from <a href="#dashboard">your dashboard</a>). Separately, if you register a real wallet address below, the job poster can also send you real ETH directly.`
-            : job.payMethod === "xmr"
+            : job.payMethod === "usdc" || job.payMethod === "usdt"
+              ? `The reward <span class="mono">${rewardText}</span> will be sent by the job poster to the real wallet address you register below (the same address used for real ETH payments).`
+              : job.payMethod === "sol"
+              ? `The reward <span class="mono">${rewardText}</span> will be sent by the job poster to the Solana address you register below.`
+              : job.payMethod === "xmr"
               ? `The reward <span class="mono">${rewardText}</span> will be paid by the job poster to the Monero address you registered on your dashboard. If you haven't registered one yet, please do so on <a href="#dashboard">your dashboard</a> first.`
-              : job.payMethod === "other"
+              : job.payMethod === "btc"
+                ? `The reward <span class="mono">${rewardText}</span> will be paid by the job poster to the Bitcoin address you registered on your dashboard. If you haven't registered one yet, please do so on <a href="#dashboard">your dashboard</a> first.`
+                : job.payMethod === "card"
+                ? `The reward <span class="mono">${rewardText}</span> will be paid by the job poster via the Stripe payment link you register below (card or Apple Pay, processed through Stripe to your own bank account).`
+                : job.payMethod === "other"
                 ? `The reward <span class="mono">${rewardText}</span> will be paid via ${job.otherMethodLabel ? escapeHtml(job.otherMethodLabel) : "another method"}. Please discuss the details and timing via chat.`
                 : `The reward <span class="mono">${rewardText}</span> will be paid in cash, in person. Please discuss the date/time and place via chat.`)
           : (isEth
             ? `報酬 <span class="mono">${rewardText}</span> はデモ残高としてはすでに引き出し可能残高に追加されています(<a href="#dashboard">マイページ</a>から引き出し可能)。これとは別に、下で実際のウォレットアドレスを登録しておくと、投稿者が本物のETHを直接送金できます。`
-            : job.payMethod === "xmr"
+            : job.payMethod === "usdc" || job.payMethod === "usdt"
+              ? `報酬 <span class="mono">${rewardText}</span> は、下で登録する実際のウォレットアドレス(本物のETH送金と共用のアドレスです)宛てに投稿者が送金します。`
+              : job.payMethod === "sol"
+              ? `報酬 <span class="mono">${rewardText}</span> は、下で登録するSolanaアドレス宛てに投稿者が送金します。`
+              : job.payMethod === "xmr"
               ? `報酬 <span class="mono">${rewardText}</span> は、あなたがマイページに登録したMoneroアドレス宛てに投稿者が支払います。アドレスが未登録の場合は<a href="#dashboard">マイページ</a>で先に登録してください。`
-              : job.payMethod === "other"
+              : job.payMethod === "btc"
+                ? `報酬 <span class="mono">${rewardText}</span> は、あなたがマイページに登録したBitcoinアドレス宛てに投稿者が支払います。アドレスが未登録の場合は<a href="#dashboard">マイページ</a>で先に登録してください。`
+                : job.payMethod === "card"
+                ? `報酬 <span class="mono">${rewardText}</span> は、下で登録するStripe決済リンク宛てに投稿者がカード/Apple Payで支払います(Stripeを経由してあなた自身の銀行口座に入金されます)。`
+                : job.payMethod === "other"
                 ? `報酬 <span class="mono">${rewardText}</span> は${job.otherMethodLabel ? escapeHtml(job.otherMethodLabel) : "その他の方法"}での支払いです。チャットで詳しいやり方・日時を相談してください。`
                 : `報酬 <span class="mono">${rewardText}</span> は手渡しでの支払いです。チャットで日時・場所を相談してください。`);
         actionsEl.innerHTML = `
@@ -3454,14 +4321,38 @@ contract JobChainEscrow {
             </div>
             <p style="font-size:14px; line-height:1.7;">${howToGetPaid}</p>
           </div>
-          ${isEth ? `
+          ${isEth || isStable ? `
             <div class="card" style="margin-top:12px;">
-              <div class="section-title">${tr("実際のETH受け取り先アドレス")}</div>
+              <div class="section-title">${isEth ? tr("実際のETH受け取り先アドレス") : LANG === "en" ? `Real ${job.payMethod.toUpperCase()} receiving address` : `実際の${job.payMethod.toUpperCase()}受け取り先アドレス`}</div>
               ${acct.realWallet ? `
                 <div class="addr-chip mono" style="display:inline-block;">${escapeHtml(acct.realWallet)}</div>
-                <p style="font-size:11.5px; color:var(--text-dim); margin-top:8px;">${tr("投稿者がこのアドレス宛てに実際のETHを送金できます。")}<a href="#dashboard">${tr("マイページ")}</a>${tr("で変更できます。")}</p>
+                <p style="font-size:11.5px; color:var(--text-dim); margin-top:8px;">${isEth ? tr("投稿者がこのアドレス宛てに実際のETHを送金できます。") : (LANG === "en" ? `The job poster can send real ${job.payMethod.toUpperCase()} to this address. ` : `投稿者がこのアドレス宛てに実際の${job.payMethod.toUpperCase()}を送金できます。`)}<a href="#dashboard">${tr("マイページ")}</a>${tr("で変更できます。")}</p>
               ` : `
-                <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${tr("まだ登録されていません。登録すると、投稿者がここへ実際にETHを送金できるようになります。")}</p>
+                <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${isEth ? tr("まだ登録されていません。登録すると、投稿者がここへ実際にETHを送金できるようになります。") : (LANG === "en" ? `Not registered yet. Once registered, the job poster will be able to send real ${job.payMethod.toUpperCase()} here.` : `まだ登録されていません。登録すると、投稿者がここへ実際の${job.payMethod.toUpperCase()}を送金できるようになります。`)}</p>
+                <a href="#dashboard" class="btn-accent btn-small" style="text-decoration:none; display:inline-block;">${tr("マイページで登録する")}</a>
+              `}
+            </div>
+          ` : ""}
+          ${isSolana ? `
+            <div class="card" style="margin-top:12px;">
+              <div class="section-title">${tr("実際のSolana受け取り先アドレス")}</div>
+              ${acct.solanaAddress ? `
+                <div class="addr-chip mono" style="display:inline-block;">${escapeHtml(acct.solanaAddress)}</div>
+                <p style="font-size:11.5px; color:var(--text-dim); margin-top:8px;">${tr("投稿者がこのアドレス宛てに実際のSOLを送金できます。")}<a href="#dashboard">${tr("マイページ")}</a>${tr("で変更できます。")}</p>
+              ` : `
+                <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${tr("まだ登録されていません。登録すると、投稿者がここへ実際のSOLを送金できるようになります。")}</p>
+                <a href="#dashboard" class="btn-accent btn-small" style="text-decoration:none; display:inline-block;">${tr("マイページで登録する")}</a>
+              `}
+            </div>
+          ` : ""}
+          ${isCard ? `
+            <div class="card" style="margin-top:12px;">
+              <div class="section-title">${tr("あなたのStripe決済リンク")}</div>
+              ${acct.stripeLink ? `
+                <div class="xmr-address" style="margin-top:0;">${escapeHtml(acct.stripeLink)}</div>
+                <p style="font-size:11.5px; color:var(--text-dim); margin-top:8px;">${tr("投稿者はこのリンクからカード・Apple Payで支払えます。")}<a href="#dashboard">${tr("マイページ")}</a>${tr("で変更できます。")}</p>
+              ` : `
+                <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:10px;">${tr("まだ登録されていません。登録すると、投稿者がこのリンクからカード・Apple Payで支払えるようになります。")}</p>
                 <a href="#dashboard" class="btn-accent btn-small" style="text-decoration:none; display:inline-block;">${tr("マイページで登録する")}</a>
               `}
             </div>
@@ -3499,10 +4390,18 @@ contract JobChainEscrow {
         });
       }
     }
+
+    renderReviewSection(job);
   }
 
   /* 「お金を一旦預けてから渡す機能(エスクロー)」の設定UI。
-     マイページと、求人投稿画面の両方から呼び出せる共通部品。 */
+     マイページと、求人投稿画面の両方から呼び出せる共通部品。
+     注: 預け先アドレス(realSettings.escrowAddress)は現状どのネットワーク向けかを
+     記録しない単一の値のため、ここではPolygon/BNBスマートチェーンへの切替ボタンは
+     あえて追加していない(Sepolia/Ethereumメインネット向けの機能として維持)。
+     ウォレット自体は上のアカウントメニューから他のネットワークに切り替えられるので、
+     利用者が自己責任でPolygon等に接続した状態で「自動で作る」を使うこと自体は妨げない
+     (その場合に備え、realPaymentSectionHtml側にネットワーク確認の注意書きを表示している)。*/
   function escrowSetupSectionHtml(idPrefix) {
     const escrowRemixUrl = "https://remix.ethereum.org/#code=" + encodeURIComponent(toBase64Utf8(ESCROW_SOURCE_CODE));
     return `
@@ -3541,10 +4440,15 @@ contract JobChainEscrow {
           </details>
         </div>
       </details>
+      ${isUsingDefaultEscrow() ? `
+        <div style="font-size:12px; color:var(--text-dim); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:10px 12px; margin-bottom:10px;">
+          ${tr("今は、運営が用意した共有の預け先(下の入力欄は空欄のまま)が自動で使われています。自分専用の預け先を使いたい場合だけ、下に自分のアドレスを入力してください。")}
+        </div>
+      ` : ""}
       <div id="${idPrefix}-settings-box" class="row" style="align-items:flex-end;">
         <div class="field" style="margin-bottom:0;">
           <label for="${idPrefix}-address">${tr("預け先の住所(アドレス)")}</label>
-          <input id="${idPrefix}-address" value="${escapeHtml(realSettings.escrowAddress || "")}" placeholder="${tr("0xで始まる42文字(未使用なら空欄)")}" />
+          <input id="${idPrefix}-address" value="${escapeHtml(realSettings.escrowAddress || "")}" placeholder="${isUsingDefaultEscrow() ? tr("空欄=共有の既定値を使う") : tr("0xで始まる42文字(未使用なら空欄)")}" />
         </div>
         <div>
           <button type="button" class="btn-accent" id="${idPrefix}-settings-save">${tr("保存する")}</button>
@@ -3598,7 +4502,7 @@ contract JobChainEscrow {
           <span class="addr-chip mono">${shortAddr(realWallet.address)}</span>
           ${networkBadgeHtml(realWallet.chainId)}
         </div>
-        ${realWallet.chainId === "0x1" ? `
+        ${isMainnetNetwork(realWallet.chainId) ? `
           <div class="risk-banner" style="margin-bottom:10px;">
             <strong>${tr("本物のお金が動くネットワークにつながっています。")}</strong> ${tr("まずは練習用のネットワーク(Sepolia)で試すことを強くおすすめします。")}
           </div>
@@ -3634,7 +4538,7 @@ contract JobChainEscrow {
               deployBtn.disabled = false;
             }
           };
-          if (realWallet.chainId === "0x1") {
+          if (isMainnetNetwork(realWallet.chainId)) {
             askConfirm(tr("本物のお金が動くネットワークで、預け先を新しく作ります(手数料がかかります)。よろしいですか?"), doDeploy);
           } else {
             doDeploy();
@@ -3710,6 +4614,46 @@ contract JobChainEscrow {
           </div>
         </form>
       </div>
+      <div class="card" style="margin-bottom:24px;">
+        <div class="section-title">${tr("あなたのBitcoinアドレス")}</div>
+        <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:14px;">${tr("登録しておくと、Bitcoin決済で求人を投稿するときに自動で入力されます(採用後にチャットで相手に共有する用途にも使えます)。")}</p>
+        <form id="bitcoin-form" class="row" style="align-items:flex-end;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="my-bitcoin">${tr("Bitcoinアドレス")}</label>
+            <input id="my-bitcoin" value="${escapeHtml(acct.bitcoinAddress || "")}" placeholder="${tr("1/3/bc1のいずれかで始まるBitcoinアドレス")}" />
+          </div>
+          <div>
+            <button type="submit" class="btn-accent">${tr("保存する")}</button>
+          </div>
+        </form>
+      </div>
+      <div class="card" style="margin-bottom:24px;">
+        <div class="section-title">${tr("あなたの決済リンク(Stripe)")}</div>
+        <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:14px;">${tr("Stripeの無料アカウントを作成し、報酬額に合わせた「決済リンク」(Payment Link)を発行して、そのURLをここに登録してください。採用後、投稿者はこのリンクからカード・Apple Payで支払えます。この決済方法を選ぶと、代金はStripeを経由してあなた自身の銀行口座に入金されます — なんでも屋さんはカード情報やお金そのものには一切触れません。")}</p>
+        <form id="stripe-form" class="row" style="align-items:flex-end;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="my-stripe">${tr("決済リンク(Stripe Payment Link)")}</label>
+            <input id="my-stripe" value="${escapeHtml(acct.stripeLink || "")}" placeholder="${tr("https://buy.stripe.com/ から始まるリンクなど")}" />
+          </div>
+          <div>
+            <button type="submit" class="btn-accent">${tr("保存する")}</button>
+          </div>
+        </form>
+      </div>
+      <div class="card" style="margin-bottom:24px;">
+        <div class="section-title">${tr("あなたのSolanaアドレス(本物)")}</div>
+        <p style="font-size:12.5px; color:var(--text-dim); margin-bottom:14px;">${tr("Solana決済の求人に採用された場合、投稿者はこのアドレス宛てに実際のSOLを送金できます(ETH用の「実際のウォレットアドレス」とは別の、Solana専用の欄です)。")}</p>
+        <form id="solana-form" class="row" style="align-items:flex-end;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="my-solana">${tr("Solanaアドレス")}</label>
+            <input id="my-solana" value="${escapeHtml(acct.solanaAddress || "")}" placeholder="${tr("Base58形式の32〜44文字のSolanaアドレス")}" />
+          </div>
+          <div style="display:flex; gap:8px;">
+            ${solanaWallet.address ? `<button type="button" class="btn-ghost" id="use-connected-solana-wallet">${tr("接続中のアドレスを使う")}</button>` : ""}
+            <button type="submit" class="btn-accent">${tr("保存する")}</button>
+          </div>
+        </form>
+      </div>
       <div style="margin-bottom:24px;">
         <div class="section-title">${LANG === "en" ? `Jobs you posted (${posted.length})` : `自分が投稿した求人 (${posted.length})`}</div>
         <div class="job-list">${posted.length ? posted.map((j) => jobRow(j)).join("") : `<div class="empty">${tr("まだ求人を投稿していません。")}</div>`}</div>
@@ -3766,6 +4710,62 @@ contract JobChainEscrow {
         toast((err && err.message) || tr("保存に失敗しました。"), "error");
       }
     });
+
+    document.getElementById("bitcoin-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const v = document.getElementById("my-bitcoin").value.trim();
+      try {
+        const { doc, updateDoc } = fsMod;
+        await updateDoc(doc(db, "accounts", acct.id), { bitcoin_address: v });
+        acct.bitcoinAddress = v;
+        toast(tr("Bitcoinアドレスを保存しました。"), "success");
+      } catch (err) {
+        toast((err && err.message) || tr("保存に失敗しました。"), "error");
+      }
+    });
+
+    document.getElementById("stripe-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const v = document.getElementById("my-stripe").value.trim();
+      // Stripeの決済リンクのホスト名は複数ある可能性があるため、厳密なドメイン
+      // チェックはしない。ただし javascript: のような危険なスキームや、
+      // 明らかにURLでない入力は防ぐため、https:// で始まることだけ確認する。
+      if (v && !/^https:\/\//i.test(v)) {
+        toast(tr("正しい決済リンクの形式ではありません(https://で始まるURL)。"), "error");
+        return;
+      }
+      try {
+        const { doc, updateDoc } = fsMod;
+        await updateDoc(doc(db, "accounts", acct.id), { stripe_link: v });
+        acct.stripeLink = v;
+        toast(tr("決済リンクを保存しました。"), "success");
+      } catch (err) {
+        toast((err && err.message) || tr("保存に失敗しました。"), "error");
+      }
+    });
+
+    document.getElementById("solana-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const v = document.getElementById("my-solana").value.trim();
+      if (v && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(v)) {
+        toast(tr("正しいSolanaアドレスの形式ではありません(Base58形式の32〜44文字)。"), "error");
+        return;
+      }
+      try {
+        const { doc, updateDoc } = fsMod;
+        await updateDoc(doc(db, "accounts", acct.id), { solana_address: v });
+        acct.solanaAddress = v;
+        toast(tr("Solanaアドレスを保存しました。"), "success");
+      } catch (err) {
+        toast((err && err.message) || tr("保存に失敗しました。"), "error");
+      }
+    });
+    const useConnectedSolanaBtn = document.getElementById("use-connected-solana-wallet");
+    if (useConnectedSolanaBtn) {
+      useConnectedSolanaBtn.addEventListener("click", () => {
+        document.getElementById("my-solana").value = solanaWallet.address;
+      });
+    }
   }
 
   function viewProfile() {
@@ -3779,6 +4779,10 @@ contract JobChainEscrow {
       <div class="card" style="margin-bottom:16px;">
         <div style="font-size:12.5px; color:var(--text-dim);">${tr("ウォレットアドレス")}</div>
         <div class="addr-chip" style="margin-top:6px; display:inline-block;">${acct.address}</div>
+        <div style="margin-top:10px; font-size:12.5px; color:var(--text-dim);">${tr("あなたの評価")}: ${(() => {
+          const stats = accountRatingStats(acct.id);
+          return stats ? `★${stats.avg.toFixed(1)} (${stats.count})` : tr("まだ評価がありません");
+        })()}</div>
       </div>
       <form id="profile-form" class="card stack">
         <div class="field">
@@ -3871,7 +4875,7 @@ contract JobChainEscrow {
   // 上書きする。LANGが"ja"の場合は何もせず、これまでの表示と完全に同じになる。
   function applyStaticTranslations() {
     if (LANG !== "en") return;
-    document.title = tr("ジョブチェーン");
+    document.title = tr("なんでも屋さん | 匿名で使える求人マッチング・単発バイト掲示板");
     const navLabels = {
       search: "検索",
       list: "求人一覧",
@@ -3934,3 +4938,5 @@ contract JobChainEscrow {
   init();
 })();
 </script>
+</body>
+</html>
