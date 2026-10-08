@@ -1,0 +1,9 @@
+{
+  "name": "nandemoya-seo-generator",
+  "private": true,
+  "type": "module",
+  "description": "なんでも屋さんの求人データからGoogleしごと検索・アグリゲーター向けの静的ページを生成するスクリプト一式",
+  "dependencies": {
+    "firebase-admin": "^12.6.0"
+  }
+}
