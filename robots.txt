@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ut181749ut.github.io/jobchain/sitemap.xml
